@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Picturization</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Start Fragment -->
+    <string name="txt_fab_take_picture">Take a Picture</string>
+    <string name="txt_fab_gallery">Pick from Gallery</string>
 </resources>
