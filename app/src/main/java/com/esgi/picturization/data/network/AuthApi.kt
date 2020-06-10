@@ -45,9 +45,7 @@ interface AuthApi {
                 this.readTimeout(60, TimeUnit.SECONDS)
                 this.connectTimeout(60, TimeUnit.SECONDS)
                 this.addInterceptor(networkConnectionInterceptor)
-                if(BuildConfig.DEBUG){
-                    this.addInterceptor(interceptor)
-                }
+                this.addInterceptor(interceptor)
             }.build()
 
             return Retrofit.Builder()

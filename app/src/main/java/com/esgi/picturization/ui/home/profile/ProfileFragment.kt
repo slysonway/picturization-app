@@ -97,22 +97,22 @@ class ProfileFragment : Fragment(), KodeinAware {
         if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
             data?.let {
                 image_view.setImageURI(data.data)
-                val t = getRealPathFromURIPath(data.data, requireActivity())
+                val t = getRealPathFromURIPath(data.data!!, requireActivity())
                 val f = File(t)
                 viewModel.sendImage(f)
             }
         }
     }
 
-    private fun getCaptureImageOutputUri(): Uri? {
-        var outputFileUri: Uri? = null
-        val getImage: File = requireActivity().getExternalFilesDir("")
-        if (getImage != null) {
-            outputFileUri =
-                Uri.fromFile(File(getImage.path, "profile.png"))
-        }
-        return outputFileUri
-    }
+//    private fun getCaptureImageOutputUri(): Uri? {
+//        var outputFileUri: Uri? = null
+//        val getImage: File = requireActivity().getExternalFilesDir("")
+//        if (getImage != null) {
+//            outputFileUri =
+//                Uri.fromFile(File(getImage.path, "profile.png"))
+//        }
+//        return outputFileUri
+//    }
 
     private fun getRealPathFromURIPath(contentURI: Uri, activity: Activity): String? {
         val proj = arrayOf(MediaStore.Audio.Media.DATA)
