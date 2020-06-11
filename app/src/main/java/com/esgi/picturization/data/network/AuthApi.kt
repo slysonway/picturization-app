@@ -1,6 +1,5 @@
 package com.esgi.picturization.data.network
 
-import com.esgi.picturization.BuildConfig
 import com.esgi.picturization.data.models.UserLogin
 import com.esgi.picturization.data.network.responses.AuthResponse
 import com.esgi.picturization.util.Constants

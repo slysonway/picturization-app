@@ -10,6 +10,7 @@ import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.data.repositories.UserRepository
 import com.esgi.picturization.ui.auth.AuthViewModelFactory
 import com.esgi.picturization.ui.home.profile.ProfileViewModelFactory
+import com.esgi.picturization.ui.home.start.StartViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -39,5 +40,6 @@ class PicturizationApplication: Application(), KodeinAware {
         //VIEW MODEL AREA
         bind() from provider { AuthViewModelFactory(instance()) }
         bind() from provider { ProfileViewModelFactory(instance(), instance()) }
+        bind() from provider { StartViewModelFactory() }
     }
 }
