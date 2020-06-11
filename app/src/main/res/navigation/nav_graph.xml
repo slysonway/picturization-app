@@ -15,5 +15,19 @@
         android:id="@+id/startFragment"
         android:name="com.esgi.picturization.ui.home.start.StartFragment"
         tools:label="Start"
-        tools:layout= "@layout/fragment_start"/>
+        tools:layout= "@layout/fragment_start">
+        <action
+            android:id="@+id/action_start_fragment_to_transform_picture_fragment"
+            app:destination="@id/transformPictureFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/transformPictureFragment"
+        android:name="com.esgi.picturization.ui.home.transform.TransformPictureFragment"
+        android:label="fragment_transform_picture"
+        tools:layout="@layout/fragment_transform_picture" >
+        <argument
+            android:name="image"
+            app:argType="com.esgi.picturization.data.models.Image"
+            app:nullable="false"/>
+    </fragment>
 </navigation>
