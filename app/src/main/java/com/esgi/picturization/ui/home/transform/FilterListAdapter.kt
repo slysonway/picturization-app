@@ -12,6 +12,7 @@ import com.esgi.picturization.data.models.FilterEnum
 class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {
 
     private var values: MutableList<FilterEnum> = ArrayList()
+    var listener: OnRecyclerListInteractionListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         return FilterViewHolder(
@@ -25,7 +26,7 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
         val currentItem = values[position]
         holder.filter.text = currentItem.name
         holder.delete.setOnClickListener {
-            removeFilter(position)
+            listener?.onListFragmentInteraction(position)
         }
     }
 
@@ -44,6 +45,9 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
         notifyDataSetChanged()
     }
 
+    fun getAllFilter(): List<FilterEnum> {
+        return values
+    }
     private fun removeFilter(position: Int) {
         values.removeAt(position)
         notifyDataSetChanged()

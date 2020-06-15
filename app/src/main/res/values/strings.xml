@@ -12,4 +12,7 @@
     <!-- TranformPicture Fragment -->
     <string name="txt_add_filter">Add filter</string>
     <string name="btn_send_picture">Send Picture</string>
+    <string name="title_dialog_filter">Choose a filter :</string>
+    <string name="title_dialog_filter_added">Filter Confirmation</string>
+    <string name="message_dialog_filter_added">The %s has been added</string>
 </resources>

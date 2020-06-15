@@ -42,6 +42,6 @@ class PicturizationApplication: Application(), KodeinAware {
         bind() from provider { AuthViewModelFactory(instance()) }
         bind() from provider { ProfileViewModelFactory(instance(), instance()) }
         bind() from provider { StartViewModelFactory() }
-        bind() from provider { TransformPictureViewModelFactory() }
+        bind() from provider { TransformPictureViewModelFactory(instance()) }
     }
 }
