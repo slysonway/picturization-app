@@ -12,7 +12,7 @@
         android:id="@+id/tranform_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.home.transform.TransformPictureFragment">
+        tools:context=".ui.home.image.transform.TransformPictureFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

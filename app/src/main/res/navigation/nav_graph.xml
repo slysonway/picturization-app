@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/transformPictureFragment"
-        android:name="com.esgi.picturization.ui.home.transform.TransformPictureFragment"
+        android:name="com.esgi.picturization.ui.home.image.transform.TransformPictureFragment"
         android:label="fragment_transform_picture"
         tools:layout="@layout/fragment_transform_picture" >
         <argument

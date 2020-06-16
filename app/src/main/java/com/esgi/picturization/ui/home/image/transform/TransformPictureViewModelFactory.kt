@@ -1,4 +1,4 @@
-package com.esgi.picturization.ui.home.transform
+package com.esgi.picturization.ui.home.image.transform
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

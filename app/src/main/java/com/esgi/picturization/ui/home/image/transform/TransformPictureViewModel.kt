@@ -1,10 +1,9 @@
-package com.esgi.picturization.ui.home.transform
+package com.esgi.picturization.ui.home.image.transform
 
 import android.net.Uri
 import android.util.Log
 import android.view.View
 import androidx.core.net.toUri
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.esgi.picturization.data.models.FilterEnum
@@ -13,9 +12,6 @@ import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.util.ApiException
 import com.esgi.picturization.util.Coroutines
 import com.esgi.picturization.util.NoInternetException
-import java.io.File
-import java.io.IOException
-import java.lang.Exception
 
 class TransformPictureViewModel(
     private val repository: ImageRepository

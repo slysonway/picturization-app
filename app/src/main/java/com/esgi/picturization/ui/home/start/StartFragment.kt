@@ -6,22 +6,20 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.databinding.FragmentStartBinding
@@ -35,10 +33,13 @@ import java.io.File
 /**
  * A simple [Fragment] subclass.
  */
-class StartFragment : Fragment() , KodeinAware {
+class StartFragment : Fragment(), KodeinAware, StartListener,  OnRecycleListInteractionListener {
     override val kodein by kodein()
     private val factory: StartViewModelFactory by instance<StartViewModelFactory>()
     private lateinit var viewModel: StartViewModel
+
+    private lateinit var recyclerImageList: RecyclerView
+    private lateinit var imageListAdapter: ImageAdapter
 
     private var isFabOpen: Boolean = false
     private var imageUri: Uri? = null
@@ -49,8 +50,17 @@ class StartFragment : Fragment() , KodeinAware {
     ): View? {
         val binding: FragmentStartBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_start, container,false)
         viewModel = ViewModelProvider(this, factory).get(StartViewModel::class.java)
+        viewModel.startListener = this
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+
+        recyclerImageList = binding.imageList
+        recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
+        imageListAdapter = ImageAdapter()
+        imageListAdapter.listener = this
+        recyclerImageList.adapter = imageListAdapter
+
+
 
         val fabOpen = AnimationUtils.loadAnimation(context, R.anim.fab_open)
         val fabClose = AnimationUtils.loadAnimation(context, R.anim.fab_close)
@@ -100,6 +110,15 @@ class StartFragment : Fragment() , KodeinAware {
 
         // Inflate the layout for this fragment
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        swipe_container.setOnRefreshListener {
+            viewModel.getImage()
+        }
+
+        viewModel.getImage()
+
     }
 
     private fun pickFromGalley() {
@@ -193,6 +212,26 @@ class StartFragment : Fragment() , KodeinAware {
         }
     }
 
+    override fun onListFragmentInteraction(position: Int) {
+        val image = viewModel.imageList.value!![position]
+
+    }
+
+    override fun onStarted() {
+        swipe_container.isRefreshing = true
+    }
+
+    override fun onFinish() {
+        swipe_container.isRefreshing = false
+    }
+
+    override fun onSuccess() {
+        imageListAdapter.setData(viewModel.imageList.value!!)
+    }
+
+    override fun onError() {
+
+    }
 
     companion object {
         private const val TAKE_PICTURE_CODE = 0
@@ -201,5 +240,4 @@ class StartFragment : Fragment() , KodeinAware {
         private const val TAKE_PICTURE_PERMISSION_CODE = 1000
         private const val PICK_GALLERY_PERMISSION_CODE = 1001
     }
-
 }

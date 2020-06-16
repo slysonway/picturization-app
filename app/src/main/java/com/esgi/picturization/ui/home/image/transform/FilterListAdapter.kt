@@ -1,4 +1,4 @@
-package com.esgi.picturization.ui.home.transform
+package com.esgi.picturization.ui.home.image.transform
 
 import android.view.LayoutInflater
 import android.view.View
