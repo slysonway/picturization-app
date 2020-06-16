@@ -9,7 +9,9 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
@@ -17,6 +19,8 @@ import com.esgi.picturization.data.models.FilterEnum
 import com.esgi.picturization.databinding.FragmentTransformPictureBinding
 import com.esgi.picturization.util.hide
 import com.esgi.picturization.util.show
+import com.esgi.picturization.util.snackbar
+import com.esgi.picturization.util.toast
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
@@ -82,6 +86,11 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener, OnR
             val filter = arrayAdapter.getItem(which)
             viewModel.filterList.add(filter!!)
             filterListAdapter.setData(viewModel.filterList)
+
+            if (viewModel.filterList.size > 0) {
+                btn_send_picture.isEnabled = true
+            }
+
             val builderInner = AlertDialog.Builder(requireContext())
             builderInner.setTitle(getString(R.string.title_dialog_filter_added))
             builderInner.setMessage(getString(R.string.message_dialog_filter_added, filter.name))
@@ -96,6 +105,10 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener, OnR
     override fun onListFragmentInteraction(position: Int) {
         viewModel.filterList.removeAt(position)
         filterListAdapter.setData(viewModel.filterList)
+
+        if (viewModel.filterList.size < 1) {
+            btn_send_picture.isEnabled = false
+        }
     }
 
     override fun onStarted() {
@@ -111,7 +124,8 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener, OnR
     }
 
     override fun onSuccess() {
-        TODO("Not yet implemented")
+        requireView().snackbar(getString(R.string.message_success_send))
+        requireView().findNavController().navigateUp()
     }
 
 }

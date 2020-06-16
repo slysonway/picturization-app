@@ -14,8 +14,8 @@
     <fragment
         android:id="@+id/startFragment"
         android:name="com.esgi.picturization.ui.home.start.StartFragment"
-        tools:label="@string/app_name"
-        tools:layout= "@layout/fragment_start">
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_start">
         <action
             android:id="@+id/action_start_fragment_to_transform_picture_fragment"
             app:destination="@id/transformPictureFragment" />

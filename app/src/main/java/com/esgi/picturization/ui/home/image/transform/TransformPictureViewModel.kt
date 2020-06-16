@@ -31,8 +31,7 @@ class TransformPictureViewModel(
                 val toSend = Image(image.value!!.file, filterList)
 
                 val t = repository.sendImage(toSend)
-                Log.d(this::class.java.simpleName, t.toString())
-
+                transformListener?.onSuccess()
             } catch (e: ApiException) {
                 e.printStackTrace()
                 //transformListener?.onError()

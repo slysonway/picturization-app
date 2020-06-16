@@ -71,6 +71,7 @@
                 android:layout_margin="16dp"
                 android:onClick="@{viewModel::sendImage}"
                 android:text="@string/btn_send_picture"
+                android:enabled="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
