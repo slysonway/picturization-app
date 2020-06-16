@@ -19,6 +19,7 @@
     <string name="title_dialog_filter">Choose a filter :</string>
     <string name="title_dialog_filter_added">Filter Confirmation</string>
     <string name="message_dialog_filter_added">The %s has been added</string>
+    <string name="message_success_send">The Image was successfully sent</string>
 
     <!-- ImageDetails Fragment -->
     <string name="title_image_details_fragment">Image Details</string>
