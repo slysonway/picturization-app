@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 
 import com.esgi.picturization.R
 import kotlinx.android.synthetic.main.fragment_image_details.*
+import kotlinx.android.synthetic.main.fragment_image_details.view.*
 import java.text.SimpleDateFormat
 
 /**
@@ -21,7 +23,13 @@ class ImageDetailsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_image_details, container, false)
+        val view = inflater.inflate(R.layout.fragment_image_details, container, false)
+
+        view.btn_close.setOnClickListener {
+            requireView().findNavController().navigateUp()
+        }
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

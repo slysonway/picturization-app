@@ -25,4 +25,5 @@
     <string name="title_created_at">Send at : </string>
     <string name="title_updated_at">Treated at : </string>
     <string name="title_treaty">Treated : </string>
+    <string name="title_filters">Filters : </string>
 </resources>
