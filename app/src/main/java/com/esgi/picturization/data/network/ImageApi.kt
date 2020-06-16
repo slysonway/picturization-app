@@ -25,6 +25,9 @@ interface ImageApi {
     @GET("images/treated")
     suspend fun getTreatedImage() : Response<List<DbImage>>
 
+    @GET("{url}")
+    suspend fun downloadImage(@Path("url") url: String) : Response<ResponseBody>
+
 
     companion object {
         operator fun invoke(

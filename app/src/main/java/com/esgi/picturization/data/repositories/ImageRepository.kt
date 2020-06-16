@@ -5,9 +5,7 @@ import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.models.UrlImage
 import com.esgi.picturization.data.network.ImageApi
 import com.esgi.picturization.data.network.SafeApiRequest
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
+import okhttp3.*
 import retrofit2.http.Url
 import java.lang.StringBuilder
 import java.net.URL
@@ -18,9 +16,9 @@ class ImageRepository(
 ) : SafeApiRequest() {
 
     suspend fun sendImage(image: Image) : UrlImage {
-        val f = image.filters.joinToString(",")
+        val file = image.filters.joinToString(",")
         val filters =
-            RequestBody.create(MediaType.parse("multipart/form-data"), f)
+            RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val requestFile: RequestBody =
             RequestBody.create(MediaType.parse("multipart/form-data"), image.file)
         val imageBody =
@@ -35,5 +33,9 @@ class ImageRepository(
 
     suspend fun getTreatedImage() : List<DbImage> {
         return apiRequest { api.getTreatedImage() }
+    }
+
+    suspend fun downloadImage(url: String) : ResponseBody {
+        return apiRequest { api.downloadImage(url) }
     }
 }

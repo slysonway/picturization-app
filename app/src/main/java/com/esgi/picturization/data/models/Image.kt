@@ -1,6 +1,5 @@
 package com.esgi.picturization.data.models
 
-import android.net.Uri
 import java.io.File
 import java.io.Serializable
 
