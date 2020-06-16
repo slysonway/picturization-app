@@ -22,7 +22,7 @@ class StartViewModel(
             try {
                 val images = imageRepository.getUntreatedImage()
                 //val images = imageRepository.getTreatedImage()
-                imageList.value = images
+                imageList.value = images.sortedByDescending { it.createdAt }
                 startListener?.onSuccess()
             } catch (e: ApiException) {
                 e.printStackTrace()

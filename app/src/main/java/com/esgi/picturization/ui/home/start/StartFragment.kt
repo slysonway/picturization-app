@@ -214,7 +214,8 @@ class StartFragment : Fragment(), KodeinAware, StartListener,  OnRecycleListInte
 
     override fun onListFragmentInteraction(position: Int) {
         val image = viewModel.imageList.value!![position]
-
+        val action = StartFragmentDirections.actionStartFragmentToImageDetailsFragment(image)
+        requireView().findNavController().navigate(action)
     }
 
     override fun onStarted() {

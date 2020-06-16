@@ -26,11 +26,14 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val currentItem = values[position]
-        holder.name.text = SimpleDateFormat("dd/MM/yyyy HH:mm").format(currentItem.createdAt)
+        holder.name.text = SimpleDateFormat(holder.itemView.resources.getString(R.string.date_format)).format(currentItem.createdAt)
         Glide.with(holder.itemView)
             .load(currentItem.url)
             .centerCrop()
             .into(holder.image)
+        holder.itemView.setOnClickListener {
+            listener?.onListFragmentInteraction(position)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -39,7 +42,7 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
 
     fun setData(data: List<DbImage>) {
         values.clear()
-        values.addAll(data.sortedByDescending { it.createdAt })
+        values.addAll(data)
         notifyDataSetChanged()
     }
 
