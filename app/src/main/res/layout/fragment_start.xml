@@ -61,8 +61,10 @@
             android:clickable="true"
             android:src="@drawable/ic_add_a_photo_white_24dp"
             android:visibility="invisible"
+            app:backgroundTint="@color/colorPrimaryLight"
             app:layout_constraintBottom_toTopOf="@+id/container_layout"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_btn_gallery"
@@ -73,8 +75,10 @@
             android:clickable="true"
             android:src="@drawable/ic_gallery_white_24dp"
             android:visibility="invisible"
+            app:backgroundTint="@color/colorPrimaryLight"
             app:layout_constraintBottom_toTopOf="@+id/floating_btn_take_picture"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:focusable="true" />
 
         <TextView
             android:id="@+id/floating_txt_take_picture"

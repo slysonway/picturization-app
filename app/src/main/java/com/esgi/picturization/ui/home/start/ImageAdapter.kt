@@ -29,6 +29,7 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
         holder.name.text = SimpleDateFormat(holder.itemView.resources.getString(R.string.date_format)).format(currentItem.createdAt)
         Glide.with(holder.itemView)
             .load(currentItem.url)
+            .placeholder(R.drawable.ic_loop_blue_24dp)
             .centerCrop()
             .into(holder.image)
         holder.itemView.setOnClickListener {
