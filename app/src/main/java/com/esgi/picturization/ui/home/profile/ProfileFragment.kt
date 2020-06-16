@@ -99,7 +99,7 @@ class ProfileFragment : Fragment(), KodeinAware {
                 image_view.setImageURI(data.data)
                 val t = getRealPathFromURIPath(data.data!!, requireActivity())
                 val f = File(t)
-                viewModel.sendImage(f)
+                //viewModel.sendImage(f)
             }
         }
     }

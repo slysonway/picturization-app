@@ -16,17 +16,17 @@ class ProfileViewModel(
 ) : ViewModel() {
     val user = repository.getUser()
 
-    fun sendImage(data: File) {
-        Coroutines.main {
-            try {
-                val t = imageRepository.sendImage(data)
-                Log.d(this::class.java.simpleName, t)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-
-        }
-    }
+//    fun sendImage(data: File) {
+//        Coroutines.main {
+//            try {
+//                val t = imageRepository.sendImage(data)
+//                Log.d(this::class.java.simpleName, t)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            } catch (e: IOException) {
+//                e.printStackTrace()
+//            }
+//
+//        }
+//    }
 }

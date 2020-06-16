@@ -1,21 +1,29 @@
 package com.esgi.picturization.data.network
 
+import com.esgi.picturization.data.models.DbImage
+import com.esgi.picturization.data.models.UrlImage
 import com.esgi.picturization.util.Constants
+import com.google.gson.GsonBuilder
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
+import retrofit2.http.*
+import java.net.URL
 import java.util.concurrent.TimeUnit
 
 interface ImageApi {
 
     @Multipart
-    @POST("images")
-    suspend fun sendImage(@Part image: MultipartBody.Part) : Response<String>
+    @POST("images/untreated")
+    suspend fun sendImage(@Part image: MultipartBody.Part, @Part("filters") filters: RequestBody) : Response<UrlImage>
+
+    @GET("images/untreated")
+    suspend fun getUntreatedImage() : Response<List<DbImage>>
+
+    @GET("images/treated")
+    suspend fun getTreatedImage() : Response<List<DbImage>>
 
 
     companion object {
@@ -38,8 +46,12 @@ interface ImageApi {
                 this.addInterceptor(networkConnectionInterceptor)
             }.build()
 
+
             //val gsonBuiler = GsonBuilder()
             //gsonBuilder.registerTypeAdapter(Date::class.java, DateDeserializer())
+
+            val gson = GsonBuilder().setLenient().create()
+
             return Retrofit.Builder()
                 .client(okHttpClient)
                 .baseUrl(Constants.URL)

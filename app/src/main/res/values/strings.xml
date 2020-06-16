@@ -4,7 +4,26 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <string name="date_format">dd/MM/yyyy HH:mm</string>
+    <string name="btn_close">Close</string>
+
     <!-- Start Fragment -->
     <string name="txt_fab_take_picture">Take a Picture</string>
     <string name="txt_fab_gallery">Pick from Gallery</string>
+    <string name="error_open_picture">An error occur with the picture</string>
+
+    <!-- TranformPicture Fragment -->
+    <string name="title_transform_fragment">Transform</string>
+    <string name="txt_add_filter">Add filter</string>
+    <string name="btn_send_picture">Send Picture</string>
+    <string name="title_dialog_filter">Choose a filter :</string>
+    <string name="title_dialog_filter_added">Filter Confirmation</string>
+    <string name="message_dialog_filter_added">The %s has been added</string>
+
+    <!-- ImageDetails Fragment -->
+    <string name="title_image_details_fragment">Image Details</string>
+    <string name="title_created_at">Send at : </string>
+    <string name="title_updated_at">Treated at : </string>
+    <string name="title_treaty">Treated : </string>
+    <string name="title_filters">Filters : </string>
 </resources>

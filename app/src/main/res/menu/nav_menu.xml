@@ -3,7 +3,8 @@
 
     <item
         android:title="Home"
-        android:id="@+id/profileFragment" />
+        android:id="@+id/startFragment"
+        android:icon="@drawable/ic_home_black_24dp"/>
 
     <item
         android:title="Users"

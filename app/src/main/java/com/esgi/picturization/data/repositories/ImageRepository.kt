@@ -1,34 +1,39 @@
 package com.esgi.picturization.data.repositories
 
-import android.content.Intent
+import com.esgi.picturization.data.models.DbImage
+import com.esgi.picturization.data.models.Image
+import com.esgi.picturization.data.models.UrlImage
 import com.esgi.picturization.data.network.ImageApi
 import com.esgi.picturization.data.network.SafeApiRequest
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import java.io.File
+import retrofit2.http.Url
+import java.lang.StringBuilder
+import java.net.URL
 
 
 class ImageRepository(
     private val api: ImageApi
 ) : SafeApiRequest() {
 
-    suspend fun sendImage(file: File) : String {
+    suspend fun sendImage(image: Image) : UrlImage {
+        val f = image.filters.joinToString(",")
+        val filters =
+            RequestBody.create(MediaType.parse("multipart/form-data"), f)
         val requestFile: RequestBody =
-            RequestBody.create(MediaType.parse("multipart/form-data"), file)
+            RequestBody.create(MediaType.parse("multipart/form-data"), image.file)
+        val imageBody =
+            MultipartBody.Part.createFormData("image", image.file.name, requestFile)
 
-        // MultipartBody.Part is used to send also the actual file name
+        return apiRequest { api.sendImage(imageBody, filters) }
+    }
 
-        // MultipartBody.Part is used to send also the actual file name
-        val body =
-            MultipartBody.Part.createFormData("image", file.getName(), requestFile)
+    suspend fun getUntreatedImage() : List<DbImage> {
+        return apiRequest { api.getUntreatedImage() }
+    }
 
-        // add another part within the multipart request
-
-        // add another part within the multipart request
-//        val fullName =
-//            RequestBody.create(MediaType.parse("multipart/form-data"), "Your Name")
-
-        return apiRequest { api.sendImage(body) }
+    suspend fun getTreatedImage() : List<DbImage> {
+        return apiRequest { api.getTreatedImage() }
     }
 }
