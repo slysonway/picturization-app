@@ -23,6 +23,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.databinding.FragmentStartBinding
+import com.esgi.picturization.ui.home.image.list.ImageAdapter
+import com.esgi.picturization.ui.home.image.list.OnRecycleListInteractionListener
 import com.esgi.picturization.util.toast
 import kotlinx.android.synthetic.main.fragment_start.*
 import org.kodein.di.KodeinAware
@@ -33,7 +35,8 @@ import java.io.File
 /**
  * A simple [Fragment] subclass.
  */
-class StartFragment : Fragment(), KodeinAware, StartListener,  OnRecycleListInteractionListener {
+class StartFragment : Fragment(), KodeinAware, StartListener,
+    OnRecycleListInteractionListener {
     override val kodein by kodein()
     private val factory: StartViewModelFactory by instance<StartViewModelFactory>()
     private lateinit var viewModel: StartViewModel
@@ -56,7 +59,8 @@ class StartFragment : Fragment(), KodeinAware, StartListener,  OnRecycleListInte
 
         recyclerImageList = binding.imageList
         recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
-        imageListAdapter = ImageAdapter()
+        imageListAdapter =
+            ImageAdapter()
         imageListAdapter.listener = this
         recyclerImageList.adapter = imageListAdapter
 

@@ -8,6 +8,12 @@
 
     <item
         android:title="Users"
-        android:id="@+id/fragmentUsers"/>
+        android:id="@+id/fragmentUsers"
+        android:icon="@drawable/ic_account_circle_blue_24dp"/>
+
+    <item
+        android:title="Untreated"
+        android:id="@+id/untreatedListFragment"
+        android:icon="@drawable/ic_loop_blue_24dp"/>
 
 </menu>

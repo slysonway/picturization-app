@@ -12,6 +12,7 @@ import com.esgi.picturization.ui.auth.AuthViewModelFactory
 import com.esgi.picturization.ui.home.profile.ProfileViewModelFactory
 import com.esgi.picturization.ui.home.start.StartViewModelFactory
 import com.esgi.picturization.ui.home.image.transform.TransformPictureViewModelFactory
+import com.esgi.picturization.ui.home.untreated.UntreatedListViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -43,5 +44,6 @@ class PicturizationApplication: Application(), KodeinAware {
         bind() from provider { ProfileViewModelFactory(instance(), instance()) }
         bind() from provider { StartViewModelFactory(instance()) }
         bind() from provider { TransformPictureViewModelFactory(instance()) }
+        bind() from provider { UntreatedListViewModelFactory(instance()) }
     }
 }

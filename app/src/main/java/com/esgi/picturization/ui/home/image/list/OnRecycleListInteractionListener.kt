@@ -1,4 +1,4 @@
-package com.esgi.picturization.ui.home.start
+package com.esgi.picturization.ui.home.image.list
 
 interface OnRecycleListInteractionListener {
     fun onListFragmentInteraction(position: Int)

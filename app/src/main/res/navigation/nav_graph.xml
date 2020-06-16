@@ -43,4 +43,13 @@
             app:argType="com.esgi.picturization.data.models.DbImage"
             app:nullable="false"/>
     </fragment>
+    <fragment
+        android:id="@+id/untreatedListFragment"
+        android:name="com.esgi.picturization.ui.home.untreated.UntreatedListFragment"
+        android:label="UntreatedListFragment"
+        tools:layout="@layout/fragment_untreated_list">
+        <action
+            android:id="@+id/action_untreatedListFragment_to_image_details_fragment"
+            app:destination="@id/imageDetailsFragment" />
+    </fragment>
 </navigation>

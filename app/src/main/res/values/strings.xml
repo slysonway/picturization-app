@@ -27,4 +27,7 @@
     <string name="title_updated_at">Treated at : </string>
     <string name="title_treaty">Treated : </string>
     <string name="title_filters">Filters : </string>
+
+    <!-- UntreatedList Fragment -->
+    <string name="title_untreated_list_fragment">Untreated Images</string>
 </resources>

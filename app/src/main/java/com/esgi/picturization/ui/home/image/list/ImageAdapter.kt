@@ -1,4 +1,4 @@
-package com.esgi.picturization.ui.home.start
+package com.esgi.picturization.ui.home.image.list
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.DbImage
-import com.esgi.picturization.data.models.Image
 import java.text.SimpleDateFormat
 
 class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
