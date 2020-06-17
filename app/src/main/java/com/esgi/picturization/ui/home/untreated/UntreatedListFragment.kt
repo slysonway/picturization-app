@@ -44,7 +44,7 @@ class UntreatedListFragment : Fragment(), KodeinAware, UntreatedListener, OnRecy
 
         recyclerImageList = binding.imageList
         recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
-        imageListAdapter = ImageAdapter()
+        imageListAdapter = ImageAdapter(false)
         imageListAdapter.listener = this
         recyclerImageList.adapter = imageListAdapter
         // Inflate the layout for this fragment

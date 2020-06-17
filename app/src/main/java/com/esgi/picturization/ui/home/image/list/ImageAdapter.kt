@@ -6,12 +6,17 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.signature.MediaStoreSignature
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.DbImage
 import java.text.SimpleDateFormat
 
-class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter(
+    val isTreated: Boolean
+): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     private var values: MutableList<DbImage> = ArrayList()
     var listener: OnRecycleListInteractionListener? = null
 
@@ -26,9 +31,14 @@ class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val currentItem = values[position]
         holder.name.text = SimpleDateFormat(holder.itemView.resources.getString(R.string.date_format)).format(currentItem.createdAt)
+        val circularProgressDrawable = CircularProgressDrawable(holder.itemView.context)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+
         Glide.with(holder.itemView)
-            .load(currentItem.url)
-            .placeholder(R.drawable.ic_loop_blue_24dp)
+            .load(if (isTreated) currentItem.urlTreated else currentItem.urlUntreated)
+            .placeholder(circularProgressDrawable)
             .centerCrop()
             .into(holder.image)
         holder.itemView.setOnClickListener {

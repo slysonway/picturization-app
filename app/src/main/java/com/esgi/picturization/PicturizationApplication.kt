@@ -2,13 +2,14 @@ package com.esgi.picturization
 
 import android.app.Application
 import com.esgi.picturization.data.db.AppDatabase
-import com.esgi.picturization.data.network.AuthApi
-import com.esgi.picturization.data.network.AuthenticationInterceptorRefreshToken
-import com.esgi.picturization.data.network.ImageApi
-import com.esgi.picturization.data.network.NetworkConnectionInterceptor
+import com.esgi.picturization.data.network.api.AuthApi
+import com.esgi.picturization.data.network.api.ImageApi
+import com.esgi.picturization.data.network.interceptor.AuthenticationInterceptorRefreshToken
+import com.esgi.picturization.data.network.interceptor.NetworkConnectionInterceptor
 import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.data.repositories.UserRepository
 import com.esgi.picturization.ui.auth.AuthViewModelFactory
+import com.esgi.picturization.ui.home.image.details.ImageDetailsViewModelFactory
 import com.esgi.picturization.ui.home.profile.ProfileViewModelFactory
 import com.esgi.picturization.ui.home.start.StartViewModelFactory
 import com.esgi.picturization.ui.home.image.transform.TransformPictureViewModelFactory
@@ -27,12 +28,29 @@ class PicturizationApplication: Application(), KodeinAware {
         import(androidXModule(this@PicturizationApplication))
 
         //INTERCEPTOR AREA
-        bind() from singleton { NetworkConnectionInterceptor(instance()) }
-        bind() from singleton { AuthenticationInterceptorRefreshToken(instance()) }
+        bind() from singleton {
+            NetworkConnectionInterceptor(
+                instance()
+            )
+        }
+        bind() from singleton {
+            AuthenticationInterceptorRefreshToken(
+                instance()
+            )
+        }
 
         //API AREA
-        bind() from singleton { AuthApi(instance()) }
-        bind() from singleton { ImageApi(instance(), instance()) }
+        bind() from singleton {
+            AuthApi(
+                instance()
+            )
+        }
+        bind() from singleton {
+            ImageApi(
+                instance(),
+                instance()
+            )
+        }
 
         //REPOSITORY AREA
         bind() from singleton { AppDatabase(instance()) }
@@ -45,5 +63,6 @@ class PicturizationApplication: Application(), KodeinAware {
         bind() from provider { StartViewModelFactory(instance()) }
         bind() from provider { TransformPictureViewModelFactory(instance()) }
         bind() from provider { UntreatedListViewModelFactory(instance()) }
+        bind()from provider { ImageDetailsViewModelFactory(instance()) }
     }
 }

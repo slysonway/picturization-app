@@ -3,14 +3,11 @@ package com.esgi.picturization.data.repositories
 import com.esgi.picturization.data.models.DbImage
 import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.models.UrlImage
-import com.esgi.picturization.data.network.ImageApi
+import com.esgi.picturization.data.network.api.ImageApi
 import com.esgi.picturization.data.network.SafeApiRequest
-import okhttp3.MediaType
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
-import retrofit2.http.Url
-import java.lang.StringBuilder
-import java.net.URL
+import okhttp3.*
+import retrofit2.Call
+import retrofit2.Response
 
 
 class ImageRepository(
@@ -18,9 +15,9 @@ class ImageRepository(
 ) : SafeApiRequest() {
 
     suspend fun sendImage(image: Image) : UrlImage {
-        val f = image.filters.joinToString(",")
+        val file = image.filters.joinToString(",")
         val filters =
-            RequestBody.create(MediaType.parse("multipart/form-data"), f)
+            RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val requestFile: RequestBody =
             RequestBody.create(MediaType.parse("multipart/form-data"), image.file)
         val imageBody =

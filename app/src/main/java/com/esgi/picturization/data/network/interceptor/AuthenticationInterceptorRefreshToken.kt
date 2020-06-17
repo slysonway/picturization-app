@@ -1,4 +1,4 @@
-package com.esgi.picturization.data.network
+package com.esgi.picturization.data.network.interceptor
 
 import com.esgi.picturization.data.repositories.UserRepository
 import okhttp3.Interceptor

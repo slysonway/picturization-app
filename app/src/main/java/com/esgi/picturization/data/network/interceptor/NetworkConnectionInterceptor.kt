@@ -1,4 +1,4 @@
-package com.esgi.picturization.data.network
+package com.esgi.picturization.data.network.interceptor
 
 import android.content.Context
 import android.net.ConnectivityManager

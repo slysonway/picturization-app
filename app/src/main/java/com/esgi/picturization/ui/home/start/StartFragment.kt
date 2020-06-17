@@ -60,7 +60,7 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
         recyclerImageList = binding.imageList
         recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
         imageListAdapter =
-            ImageAdapter()
+            ImageAdapter(true)
         imageListAdapter.listener = this
         recyclerImageList.adapter = imageListAdapter
 
@@ -133,8 +133,8 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
 
     private fun takePicture() {
         val values = ContentValues()
-        values.put(MediaStore.Images.Media.TITLE, "Test New Picture")
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
+//        values.put(MediaStore.Images.Media.TITLE, "Test New Picture")
+//        values.put(MediaStore.Images.Media.DESCRIPTION, "From Camera")
         imageUri = requireActivity().contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
 
         val takePicture = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
