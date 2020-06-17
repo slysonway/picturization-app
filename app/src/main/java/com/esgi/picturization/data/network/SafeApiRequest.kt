@@ -1,6 +1,11 @@
 package com.esgi.picturization.data.network
 
+import android.content.Intent
+import com.esgi.picturization.PicturizationApplication
+import com.esgi.picturization.ui.auth.LoginActivity
 import com.esgi.picturization.util.ApiException
+import com.esgi.picturization.util.ForbiddenException
+import com.esgi.picturization.util.NotFoundException
 import com.esgi.picturization.util.UnauthorizedException
 import org.json.JSONException
 import org.json.JSONObject
@@ -33,7 +38,21 @@ abstract class SafeApiRequest {
             }
             when (response.code()) {
                 500 -> throw ApiException(message)
-                401 -> throw UnauthorizedException(message)
+                401 -> {
+                    Intent(PicturizationApplication.context, LoginActivity::class.java).also {
+                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        PicturizationApplication.context!!.startActivity(it)
+                    }
+                    throw ApiException(message)
+                }
+                403 -> {
+                    Intent(PicturizationApplication.context, LoginActivity::class.java).also {
+                        it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        PicturizationApplication.context!!.startActivity(it)
+                    }
+                    throw ForbiddenException(message)
+                }
+                404 -> throw NotFoundException(message)
                 else -> throw ApiException(message)
 
             }
