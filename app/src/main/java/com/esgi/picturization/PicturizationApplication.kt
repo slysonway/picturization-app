@@ -24,6 +24,15 @@ import org.kodein.di.generic.singleton
 
 class PicturizationApplication: Application(), KodeinAware {
 
+    companion object {
+        var context: PicturizationApplication? = null
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        context = this
+    }
+
     override val kodein = Kodein.lazy {
         import(androidXModule(this@PicturizationApplication))
 
