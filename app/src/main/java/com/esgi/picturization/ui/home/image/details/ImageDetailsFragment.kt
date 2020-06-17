@@ -1,5 +1,6 @@
 package com.esgi.picturization.ui.home.image.details
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,7 +9,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 
 import com.esgi.picturization.R
 import com.esgi.picturization.databinding.FragmentImageDetailsBinding
@@ -46,10 +49,20 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val circularProgressDrawable = CircularProgressDrawable(requireContext())
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+
         arguments?.let { bundle ->
             if (!bundle.isEmpty) {
                 val args = ImageDetailsFragmentArgs.fromBundle(bundle)
-                Glide.with(requireView()).load(args.image.url).into(image_preview)
+                Glide.with(requireView())
+                    .load(args.image.urlUntreated)
+                    .placeholder(circularProgressDrawable)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .into(image_preview)
                 txt_created_at.text = SimpleDateFormat(getString(R.string.date_format)).format(args.image.createdAt)
                 args.image.updatedAt?.let {
                     txt_updated_at.text = SimpleDateFormat(getString(R.string.date_format)).format(it)

@@ -60,7 +60,7 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
         recyclerImageList = binding.imageList
         recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
         imageListAdapter =
-            ImageAdapter()
+            ImageAdapter(true)
         imageListAdapter.listener = this
         recyclerImageList.adapter = imageListAdapter
 

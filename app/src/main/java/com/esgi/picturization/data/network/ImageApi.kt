@@ -47,6 +47,7 @@ interface ImageApi {
                 this.addInterceptor(interceptor)
                 this.addInterceptor(authenticationInterceptorRefreshToken)
                 this.addInterceptor(networkConnectionInterceptor)
+                this.cache(null)
             }.build()
 
 

@@ -19,7 +19,7 @@ class ImageDetailsViewModel(
 
         val client = OkHttpClient()
         val request = Request.Builder()
-            .url(image.url)
+            .url(image.urlTreated)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
