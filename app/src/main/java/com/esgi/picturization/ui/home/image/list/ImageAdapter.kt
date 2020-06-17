@@ -40,8 +40,6 @@ class ImageAdapter(
             .load(if (isTreated) currentItem.urlTreated else currentItem.urlUntreated)
             .placeholder(circularProgressDrawable)
             .centerCrop()
-            .skipMemoryCache(true)
-            .diskCacheStrategy(DiskCacheStrategy.NONE)
             .into(holder.image)
         holder.itemView.setOnClickListener {
             listener?.onListFragmentInteraction(position)

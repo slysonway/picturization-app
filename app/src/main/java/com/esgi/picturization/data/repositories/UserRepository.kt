@@ -3,7 +3,7 @@ package com.esgi.picturization.data.repositories
 import com.esgi.picturization.data.db.AppDatabase
 import com.esgi.picturization.data.db.entities.User
 import com.esgi.picturization.data.models.UserLogin
-import com.esgi.picturization.data.network.AuthApi
+import com.esgi.picturization.data.network.api.AuthApi
 import com.esgi.picturization.data.network.SafeApiRequest
 import com.esgi.picturization.data.network.responses.AuthResponse
 

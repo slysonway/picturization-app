@@ -29,6 +29,7 @@ class ImageDetailsViewModel(
 
             override fun onResponse(call: Call, response: Response) {
                 val a = response.body()!!.byteStream()
+                val t = a.read()
             }
         })
 //        Coroutines.main {

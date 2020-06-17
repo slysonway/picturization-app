@@ -1,6 +1,7 @@
-package com.esgi.picturization.data.network
+package com.esgi.picturization.data.network.api
 
 import com.esgi.picturization.data.models.UserLogin
+import com.esgi.picturization.data.network.interceptor.NetworkConnectionInterceptor
 import com.esgi.picturization.data.network.responses.AuthResponse
 import com.esgi.picturization.util.Constants
 import okhttp3.OkHttpClient

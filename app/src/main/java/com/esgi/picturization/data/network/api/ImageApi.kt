@@ -1,7 +1,9 @@
-package com.esgi.picturization.data.network
+package com.esgi.picturization.data.network.api
 
 import com.esgi.picturization.data.models.DbImage
 import com.esgi.picturization.data.models.UrlImage
+import com.esgi.picturization.data.network.interceptor.AuthenticationInterceptorRefreshToken
+import com.esgi.picturization.data.network.interceptor.NetworkConnectionInterceptor
 import com.esgi.picturization.util.Constants
 import com.google.gson.GsonBuilder
 import okhttp3.*
@@ -10,7 +12,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import java.net.URL
 import java.util.concurrent.TimeUnit
 
 interface ImageApi {
@@ -27,7 +28,6 @@ interface ImageApi {
 
     @GET("{url}")
     suspend fun downloadImage(@Path("url") url: String) : Response<ResponseBody>
-
 
     companion object {
         operator fun invoke(
