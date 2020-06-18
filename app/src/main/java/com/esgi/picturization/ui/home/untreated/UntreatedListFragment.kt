@@ -16,6 +16,7 @@ import com.esgi.picturization.R
 import com.esgi.picturization.databinding.FragmentUntreatedListBinding
 import com.esgi.picturization.ui.home.image.list.ImageAdapter
 import com.esgi.picturization.ui.home.image.list.OnRecycleListInteractionListener
+import com.esgi.picturization.util.snackbar
 import kotlinx.android.synthetic.main.fragment_untreated_list.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
@@ -66,8 +67,8 @@ class UntreatedListFragment : Fragment(), KodeinAware, UntreatedListener, OnRecy
         swipe_container.isRefreshing = false
     }
 
-    override fun onError() {
-
+    override fun onError(message: String) {
+        requireView().snackbar(message)
     }
 
     override fun onSuccess() {

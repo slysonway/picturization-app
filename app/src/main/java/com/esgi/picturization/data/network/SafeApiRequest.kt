@@ -52,7 +52,7 @@ abstract class SafeApiRequest {
                         it.putExtra("EXCEPTION_CODE", message)
                         PicturizationApplication.context!!.startActivity(it)
                     }
-                    throw ApiException(message)
+                    throw ForbiddenException(message)
                 }
                 404 -> throw NotFoundException(message)
                 else -> throw ApiException(message)

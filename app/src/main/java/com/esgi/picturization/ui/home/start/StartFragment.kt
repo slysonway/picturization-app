@@ -25,6 +25,7 @@ import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.databinding.FragmentStartBinding
 import com.esgi.picturization.ui.home.image.list.ImageAdapter
 import com.esgi.picturization.ui.home.image.list.OnRecycleListInteractionListener
+import com.esgi.picturization.util.snackbar
 import com.esgi.picturization.util.toast
 import kotlinx.android.synthetic.main.fragment_start.*
 import org.kodein.di.KodeinAware
@@ -234,8 +235,8 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
         imageListAdapter.setData(viewModel.imageList.value!!)
     }
 
-    override fun onError() {
-
+    override fun onError(message: String) {
+            requireView().snackbar(message)
     }
 
     companion object {

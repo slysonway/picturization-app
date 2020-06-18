@@ -1,11 +1,11 @@
 package com.esgi.picturization.ui.home.untreated
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.esgi.picturization.data.models.DbImage
 import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.util.ApiException
 import com.esgi.picturization.util.Coroutines
+import com.esgi.picturization.util.ForbiddenException
 import com.esgi.picturization.util.NoInternetException
 
 class UntreatedListViewModel(
@@ -22,9 +22,11 @@ class UntreatedListViewModel(
                 imageList = images.sortedByDescending { it.createdAt }
                 untreatedListener?.onSuccess()
             } catch (e: ApiException) {
-                e.printStackTrace()
+                untreatedListener?.onError(e.message!!)
             } catch (e: NoInternetException) {
-                e.printStackTrace()
+                untreatedListener?.onError(e.message!!)
+            } catch (e: ForbiddenException) {
+                untreatedListener?.onError(e.message!!)
             } finally {
                 untreatedListener?.onFinish()
             }

@@ -142,8 +142,8 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         progress_bar.hide()
     }
 
-    override fun onError() {
-        TODO("Not yet implemented")
+    override fun onError(message: String) {
+        requireView().snackbar(message)
     }
 
     override fun onSuccess() {
