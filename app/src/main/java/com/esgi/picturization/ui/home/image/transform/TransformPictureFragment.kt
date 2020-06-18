@@ -1,5 +1,6 @@
 package com.esgi.picturization.ui.home.image.transform
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
@@ -28,6 +29,8 @@ import com.esgi.picturization.ui.home.image.transform.list.filter.OnFilterListIn
 import com.esgi.picturization.util.hide
 import com.esgi.picturization.util.show
 import com.esgi.picturization.util.snackbar
+import com.google.android.material.badge.BadgeDrawable
+import com.google.android.material.badge.BadgeUtils
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
 import org.kodein.di.KodeinAware
@@ -49,6 +52,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     private lateinit var choiceListAdapter: FilterChoiceListAdapter
     private lateinit var recyclerChoiceList: RecyclerView
 
+    @SuppressLint("RestrictedApi")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -91,6 +95,17 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             dismissList(recyclerFilterList)
         }
 
+        binding.bottomMenu.linear_layout_send.setOnClickListener {
+            dismissList(recyclerChoiceList)
+            dismissList(recyclerFilterList)
+            if (filterListAdapter.itemCount < 1) {
+                emptyFilterDialog()
+            } else {
+                viewModel.sendImage()
+            }
+        }
+
+
         return binding.root
     }
 
@@ -106,14 +121,24 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     private fun addFilter(filter: FilterEnum) {
         viewModel.filterList.add(filter)
         filterListAdapter.setData(viewModel.filterList)
+        bottom_menu.badge.text = filterListAdapter.itemCount.toString()
 
-        successAddFilterDialog(filter.name)
+        successAddFilterDialog(filter.title)
     }
 
-    private fun successAddFilterDialog(filterName: String) {
+    private fun emptyFilterDialog() {
+        AlertDialog
+            .Builder(requireContext())
+            .setTitle(R.string.title_dialog_empty_filter)
+            .setMessage(R.string.message_dialog_empty_filter)
+            .setPositiveButton("OK") { dialog, _ -> dialog.dismiss()}
+            .show()
+    }
+
+    private fun successAddFilterDialog(filterName: Int) {
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle(getString(R.string.title_dialog_filter_added))
-        dialogBuilder.setMessage(getString(R.string.message_dialog_filter_added, filterName))
+        dialogBuilder.setMessage(getString(R.string.message_dialog_filter_added, getString(filterName)))
         dialogBuilder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, _ ->
             dialog.dismiss()
         })
@@ -123,10 +148,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     override fun onFilterListener(position: Int) {
         viewModel.filterList.removeAt(position)
         filterListAdapter.setData(viewModel.filterList)
-
-//        if (viewModel.filterList.size < 1) {
-//            btn_send_picture.isEnabled = false
-//        }
+        bottom_menu.badge.text = filterListAdapter.itemCount.toString()
     }
 
     override fun onFilterChoiceListener(filter: FilterEnum) {

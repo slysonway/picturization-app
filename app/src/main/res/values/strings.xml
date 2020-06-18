@@ -27,11 +27,10 @@
     <string name="title_transform_fragment">Transform</string>
     <string name="menu_filter">Filters</string>
     <string name="menu_filter_list">Filters List</string>
-    <string name="menu_download">Download</string>
-    <string name="txt_add_filter">Add filter</string>
     <string name="btn_send_picture">Send Picture</string>
-    <string name="title_dialog_filter">Choose a filter :</string>
     <string name="title_dialog_filter_added">Filter Confirmation</string>
+    <string name="title_dialog_empty_filter">Filter Empty</string>
+    <string name="message_dialog_empty_filter">Can\'t send image because there is no filter</string>
     <string name="message_dialog_filter_added">The %s has been added</string>
     <string name="message_success_send">The Image was successfully sent</string>
 

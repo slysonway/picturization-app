@@ -25,7 +25,7 @@ class TransformPictureViewModel(
         return image.value!!.file.toUri()
     }
 
-    fun sendImage(v: View) {
+    fun sendImage() {
         Coroutines.main {
             transformListener?.onStarted()
             try {

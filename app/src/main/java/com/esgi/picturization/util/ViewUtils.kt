@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.withTimeout
 
@@ -11,11 +12,11 @@ fun Context.toast(message: String) {
     Toast.makeText(this, message, Toast.LENGTH_LONG).show()
 }
 
-fun ProgressBar.show() {
+fun View.show() {
     visibility = View.VISIBLE
 }
 
-fun ProgressBar.hide() {
+fun View.hide() {
     visibility = View.INVISIBLE
 }
 
