@@ -32,8 +32,10 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
 
         viewModel.authListener = this
 
+        val extra = intent.getStringExtra("EXCEPTION_CODE")
+
         viewModel.getLoggedInUser().observe(this, Observer { user ->
-            if (user != null) {
+            if (user != null && extra == null) {
                 Intent(this, HomeActivity::class.java).also {
                     // use for when user use back key he doesn't come back to login activity
                     it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

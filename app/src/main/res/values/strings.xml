@@ -7,6 +7,17 @@
     <string name="date_format">dd/MM/yyyy HH:mm</string>
     <string name="btn_close">Close</string>
 
+
+    <!-- Filter Name -->
+    <string name="gaussian_blur">Gaussian Blur</string>
+    <string name="radial_blur">Radial Blur</string>
+    <string name="color_inversion">Color Inversion</string>
+    <string name="zoom">Zoom</string>
+    <string name="compression">Compression</string>
+    <string name="grayscale">Grayscale</string>
+    <string name="bichromatic">Bichromatic</string>
+    <string name="ascii_image_conversion">ASCII Conversion</string>
+
     <!-- Start Fragment -->
     <string name="txt_fab_take_picture">Take a Picture</string>
     <string name="txt_fab_gallery">Pick from Gallery</string>
@@ -14,6 +25,9 @@
 
     <!-- TranformPicture Fragment -->
     <string name="title_transform_fragment">Transform</string>
+    <string name="menu_filter">Filters</string>
+    <string name="menu_filter_list">Filters List</string>
+    <string name="menu_download">Download</string>
     <string name="txt_add_filter">Add filter</string>
     <string name="btn_send_picture">Send Picture</string>
     <string name="title_dialog_filter">Choose a filter :</string>
