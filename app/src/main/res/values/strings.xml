@@ -36,12 +36,12 @@
 
     <!-- ImageDetails Fragment -->
     <string name="title_image_details_fragment">Image Details</string>
-    <string name="title_created_at">Send at : </string>
-    <string name="title_updated_at">Treated at : </string>
-    <string name="title_treaty">Treated : </string>
-    <string name="title_filters">Filters : </string>
+    <string name="title_created_at">Send at</string>
+    <string name="title_updated_at">Treated at</string>
+    <string name="title_treaty">Treated</string>
+    <string name="title_filters">Filters</string>
     <string name="btn_download_image">Download Image</string>
-
+    <string name="menu_details">Details</string>
     <!-- UntreatedList Fragment -->
     <string name="title_untreated_list_fragment">Untreated Images</string>
 </resources>

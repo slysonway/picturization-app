@@ -29,6 +29,7 @@ import com.esgi.picturization.ui.home.image.transform.list.filter.OnFilterListIn
 import com.esgi.picturization.util.hide
 import com.esgi.picturization.util.show
 import com.esgi.picturization.util.snackbar
+import com.esgi.picturization.util.toggle
 import com.google.android.material.badge.BadgeDrawable
 import com.google.android.material.badge.BadgeUtils
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
@@ -81,12 +82,12 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         recyclerFilterList.adapter = filterListAdapter
 
         binding.bottomMenu.linear_layout_filter.setOnClickListener {
-            filtersToggle(recyclerChoiceList)
+            recyclerChoiceList.toggle()
             dismissList(recyclerFilterList)
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
-            filtersToggle(recyclerFilterList)
+            recyclerFilterList.toggle()
             dismissList(recyclerChoiceList)
         }
 
@@ -153,7 +154,8 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
     override fun onFilterChoiceListener(filter: FilterEnum) {
         addFilter(filter)
-        filtersToggle(recyclerChoiceList)
+        recyclerChoiceList.toggle()
+        //filtersToggle(recyclerChoiceList)
     }
 
     override fun onStarted() {
@@ -173,19 +175,19 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         requireView().findNavController().navigateUp()
     }
 
-    private fun filtersToggle(layout: RecyclerView) {
-        val transition: Transition = Slide(Gravity.BOTTOM)
-        transition.duration = 500
-        transition.addTarget(layout)
-
-        if (layout.visibility == View.INVISIBLE) {
-            TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
-            layout.visibility = View.VISIBLE
-        } else {
-            TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
-            layout.visibility = View.INVISIBLE
-        }
-    }
+//    private fun filtersToggle(layout: RecyclerView) {
+//        val transition: Transition = Slide(Gravity.BOTTOM)
+//        transition.duration = 500
+//        transition.addTarget(layout)
+//
+//        if (layout.visibility == View.INVISIBLE) {
+//            TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
+//            layout.visibility = View.VISIBLE
+//        } else {
+//            TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
+//            layout.visibility = View.INVISIBLE
+//        }
+//    }
 
     private fun dismissList(layout: RecyclerView) {
         val transition: Transition = Slide(Gravity.BOTTOM)
