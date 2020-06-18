@@ -7,6 +7,7 @@ import com.esgi.picturization.data.db.entities.User
 import com.esgi.picturization.data.repositories.UserRepository
 import com.esgi.picturization.util.ApiException
 import com.esgi.picturization.util.Coroutines
+import com.esgi.picturization.util.ForbiddenException
 import com.esgi.picturization.util.NoInternetException
 
 class AuthViewModel(
@@ -42,8 +43,10 @@ class AuthViewModel(
                 authListener?.onFailure(e.message!!)
             } catch (e: NoInternetException) {
                 authListener?.onFailure(e.message!!)
+            } catch (e: ForbiddenException) {
+                authListener?.onFailure(e.message!!)
             } finally {
-                authListener?.onFinish()
+                    authListener?.onFinish()
             }
         }
     }
@@ -97,6 +100,8 @@ class AuthViewModel(
                 authListener?.onFailure(e.message!!)
             } catch (e: NoInternetException) {
                 authListener?.onFailure(e.message!!)
+            } catch (e: ForbiddenException) {
+                authListener?.onFinish()
             }
         }
     }

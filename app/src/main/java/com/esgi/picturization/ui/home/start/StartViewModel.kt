@@ -7,6 +7,7 @@ import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.util.ApiException
 import com.esgi.picturization.util.Coroutines
+import com.esgi.picturization.util.ForbiddenException
 import com.esgi.picturization.util.NoInternetException
 
 class StartViewModel(
@@ -25,10 +26,11 @@ class StartViewModel(
                 imageList.value = images.sortedByDescending { it.createdAt }
                 startListener?.onSuccess()
             } catch (e: ApiException) {
-                e.printStackTrace()
-                //transformListener?.onError()
+                startListener?.onError(e.message!!)
             }catch (e: NoInternetException) {
-                e.printStackTrace()
+                startListener?.onError(e.message!!)
+            } catch (e: ForbiddenException) {
+                startListener?.onError(e.message!!)
             } finally {
                 startListener?.onFinish()
             }

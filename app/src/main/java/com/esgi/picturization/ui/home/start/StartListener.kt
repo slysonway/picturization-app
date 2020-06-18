@@ -8,5 +8,5 @@ interface StartListener {
 
     fun onSuccess()
 
-    fun onError()
+    fun onError(message: String)
 }

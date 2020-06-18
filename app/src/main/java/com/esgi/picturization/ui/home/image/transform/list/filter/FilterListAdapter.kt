@@ -1,4 +1,4 @@
-package com.esgi.picturization.ui.home.image.transform
+package com.esgi.picturization.ui.home.image.transform.list.filter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -12,7 +12,8 @@ import com.esgi.picturization.data.models.FilterEnum
 class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {
 
     private var values: MutableList<FilterEnum> = ArrayList()
-    var listener: OnRecyclerListInteractionListener? = null
+    var listener: OnFilterListInteractionListener? = null
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilterViewHolder {
         return FilterViewHolder(
@@ -24,9 +25,10 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         val currentItem = values[position]
-        holder.filter.text = currentItem.name
+        holder.filter.setText(currentItem.title)
+        holder.icon.setImageResource(currentItem.icon)
         holder.delete.setOnClickListener {
-            listener?.onListFragmentInteraction(position)
+            listener?.onFilterListener(position)
         }
     }
 
@@ -55,6 +57,7 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
 
     class FilterViewHolder(view: View): RecyclerView.ViewHolder(view) {
         val filter : TextView = view.findViewById(R.id.txt_filter)
+        val icon : ImageView = view.findViewById(R.id.filter_icon)
         val delete: ImageView = view.findViewById(R.id.ic_remove_filter)
     }
 }

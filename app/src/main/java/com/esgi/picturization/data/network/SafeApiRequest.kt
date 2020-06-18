@@ -41,6 +41,7 @@ abstract class SafeApiRequest {
                 401 -> {
                     Intent(PicturizationApplication.context, LoginActivity::class.java).also {
                         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        it.putExtra("EXCEPTION_CODE", message)
                         PicturizationApplication.context!!.startActivity(it)
                     }
                     throw ApiException(message)
@@ -48,6 +49,7 @@ abstract class SafeApiRequest {
                 403 -> {
                     Intent(PicturizationApplication.context, LoginActivity::class.java).also {
                         it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        it.putExtra("EXCEPTION_CODE", message)
                         PicturizationApplication.context!!.startActivity(it)
                     }
                     throw ForbiddenException(message)

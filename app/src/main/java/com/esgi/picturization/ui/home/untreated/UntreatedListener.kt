@@ -6,7 +6,7 @@ interface UntreatedListener {
 
     fun onFinish()
 
-    fun onError()
+    fun onError(message: String)
 
     fun onSuccess()
 }

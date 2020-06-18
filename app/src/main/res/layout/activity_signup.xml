@@ -149,12 +149,10 @@
 
         </RelativeLayout>
 
-        <ProgressBar
-                android:visibility="invisible"
-                android:id="@+id/progress_bar"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        <include
+            android:id="@+id/progress_bar"
+            layout="@layout/progress_bar"
+            android:visibility="gone" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

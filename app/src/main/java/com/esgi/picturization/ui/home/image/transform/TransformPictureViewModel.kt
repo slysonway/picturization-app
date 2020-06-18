@@ -11,6 +11,7 @@ import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.util.ApiException
 import com.esgi.picturization.util.Coroutines
+import com.esgi.picturization.util.ForbiddenException
 import com.esgi.picturization.util.NoInternetException
 
 class TransformPictureViewModel(
@@ -24,19 +25,19 @@ class TransformPictureViewModel(
         return image.value!!.file.toUri()
     }
 
-    fun sendImage(v: View) {
+    fun sendImage() {
         Coroutines.main {
             transformListener?.onStarted()
             try {
                 val toSend = Image(image.value!!.file, filterList)
-
                 val t = repository.sendImage(toSend)
                 transformListener?.onSuccess()
             } catch (e: ApiException) {
-                e.printStackTrace()
-                //transformListener?.onError()
+                transformListener?.onError(e.message!!)
             }catch (e: NoInternetException) {
-                e.printStackTrace()
+                transformListener?.onError(e.message!!)
+            } catch (e: ForbiddenException) {
+                transformListener?.onError(e.message!!)
             } finally {
                 transformListener?.onFinish()
             }
