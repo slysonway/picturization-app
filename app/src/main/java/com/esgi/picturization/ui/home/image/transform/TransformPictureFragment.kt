@@ -2,10 +2,7 @@ package com.esgi.picturization.ui.home.image.transform
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +13,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.FilterEnum
 import com.esgi.picturization.databinding.FragmentTransformPictureBinding
@@ -27,8 +21,6 @@ import com.esgi.picturization.ui.home.image.transform.list.choice.OnFilterChoice
 import com.esgi.picturization.ui.home.image.transform.list.filter.FilterListAdapter
 import com.esgi.picturization.ui.home.image.transform.list.filter.OnFilterListInteractionListener
 import com.esgi.picturization.util.*
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
 import org.kodein.di.KodeinAware
@@ -137,9 +129,9 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle(getString(R.string.title_dialog_filter_added))
         dialogBuilder.setMessage(getString(R.string.message_dialog_filter_added, getString(filterName)))
-        dialogBuilder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, _ ->
+        dialogBuilder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
-        })
+        }
         dialogBuilder.show()
     }
 
@@ -152,7 +144,6 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     override fun onFilterChoiceListener(filter: FilterEnum) {
         addFilter(filter)
         recyclerChoiceList.toggle()
-        //filtersToggle(recyclerChoiceList)
     }
 
     override fun onStarted() {

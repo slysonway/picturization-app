@@ -1,32 +1,53 @@
 package com.esgi.picturization.ui.home.image.details
 
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.view.Gravity
+import android.os.Environment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.findNavController
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.bumptech.glide.Glide
+import com.esgi.picturization.BuildConfig
 import com.esgi.picturization.R
+import com.esgi.picturization.data.network.download.DownloadResult
+import com.esgi.picturization.data.network.download.downloadFile
 import com.esgi.picturization.databinding.FragmentImageDetailsBinding
 import com.esgi.picturization.util.dismiss
 import com.esgi.picturization.util.toggle
+import io.ktor.client.HttpClient
+import io.ktor.client.call.call
+import io.ktor.client.engine.android.Android
+import io.ktor.client.request.url
+import io.ktor.http.HttpMethod
+import io.ktor.http.contentLength
+import io.ktor.http.isSuccess
 import kotlinx.android.synthetic.main.bottom_menu_details.view.*
 import kotlinx.android.synthetic.main.details_image_layout.view.*
 import kotlinx.android.synthetic.main.fragment_image_details.*
-import kotlinx.android.synthetic.main.fragment_image_details.view.*
+import kotlinx.android.synthetic.main.fragment_image_details.bottom_menu
+import kotlinx.android.synthetic.main.fragment_image_details.image_preview
+import kotlinx.android.synthetic.main.fragment_transform_picture.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+import java.io.File
+import java.io.OutputStream
 import java.text.SimpleDateFormat
+import kotlin.math.roundToInt
 
 
 /**
@@ -54,7 +75,6 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
         binding.imagePreview.setOnClickListener {
             binding.detailsLayout.dismiss()
         }
-
 
         return binding.root
     }
@@ -87,6 +107,84 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
                 viewModel.image = args.image
             }
         }
+
+        setDownloadButtonClickListener()
     }
 
+    private fun setDownloadButtonClickListener() {
+        val folder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+        val filename = "Test_download.png"
+        val file = File(folder, filename)
+        val uri = context?.let {
+            FileProvider.getUriForFile(it, "${BuildConfig.APPLICATION_ID}.provider", file)
+        }
+        val extension = MimeTypeMap.getFileExtensionFromUrl(uri?.path)
+        val mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension)
+
+        bottom_menu.linear_layout_download.setOnClickListener {
+            val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            intent.setDataAndType(uri, mimeType)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.putExtra(Intent.EXTRA_TITLE, filename)
+            intent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            startActivityForResult(intent, 2)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == 2 && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                context?.let { context ->
+                    //TODO change download URL
+                    downloadFile(context, viewModel.image.urlUntreated, uri)
+                }
+            }
+        }
+    }
+
+    private fun downloadFile(context: Context, url: String, file: Uri) {
+        val ktor = HttpClient(Android)
+        viewModel.setDownload(true)
+        context.contentResolver.openOutputStream(file)?.let { outputStream ->
+            CoroutineScope(Dispatchers.IO).launch {
+                ktor.downloadFile(outputStream, url).collect {
+                    withContext(Dispatchers.Main) {
+                        when (it) {
+                            is DownloadResult.Success -> {
+                                viewModel.setDownload(false)
+                                //progress_bar.progress = 0
+                                viewFile(file)
+                                //TODO SUCCESS DOWNLOAD
+                            }
+                            is DownloadResult.Error -> {
+                                viewModel.setDownload(false)
+                                Toast.makeText(context, "Error while download File", Toast.LENGTH_LONG).show()
+                            }
+                            is DownloadResult.Progress -> {
+                                //progressbar.progress = it.progress
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun viewFile(uri: Uri) {
+        context?.let {context ->
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            val chooser = Intent.createChooser(intent, "Open with")
+
+            if (intent.resolveActivity(context.packageManager) != null) {
+                startActivity(chooser)
+            } else {
+                Toast.makeText(context, "No suitable application to open file", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }
