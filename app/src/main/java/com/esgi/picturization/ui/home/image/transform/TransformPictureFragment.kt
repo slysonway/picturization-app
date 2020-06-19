@@ -2,10 +2,7 @@ package com.esgi.picturization.ui.home.image.transform
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +13,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.transition.Slide
-import androidx.transition.Transition
-import androidx.transition.TransitionManager
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.FilterEnum
 import com.esgi.picturization.databinding.FragmentTransformPictureBinding
@@ -26,11 +20,7 @@ import com.esgi.picturization.ui.home.image.transform.list.choice.FilterChoiceLi
 import com.esgi.picturization.ui.home.image.transform.list.choice.OnFilterChoiceListInteractionListener
 import com.esgi.picturization.ui.home.image.transform.list.filter.FilterListAdapter
 import com.esgi.picturization.ui.home.image.transform.list.filter.OnFilterListInteractionListener
-import com.esgi.picturization.util.hide
-import com.esgi.picturization.util.show
-import com.esgi.picturization.util.snackbar
-import com.google.android.material.badge.BadgeDrawable
-import com.google.android.material.badge.BadgeUtils
+import com.esgi.picturization.util.*
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
 import org.kodein.di.KodeinAware
@@ -81,23 +71,23 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         recyclerFilterList.adapter = filterListAdapter
 
         binding.bottomMenu.linear_layout_filter.setOnClickListener {
-            filtersToggle(recyclerChoiceList)
-            dismissList(recyclerFilterList)
+            recyclerChoiceList.toggle()
+            recyclerFilterList.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
-            filtersToggle(recyclerFilterList)
-            dismissList(recyclerChoiceList)
+            recyclerFilterList.toggle()
+            recyclerChoiceList.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
-            dismissList(recyclerChoiceList)
-            dismissList(recyclerFilterList)
+            recyclerChoiceList.dismiss()
+            recyclerFilterList.dismiss()
         }
 
         binding.bottomMenu.linear_layout_send.setOnClickListener {
-            dismissList(recyclerChoiceList)
-            dismissList(recyclerFilterList)
+            recyclerChoiceList.dismiss()
+            recyclerFilterList.dismiss()
             if (filterListAdapter.itemCount < 1) {
                 emptyFilterDialog()
             } else {
@@ -139,9 +129,9 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         val dialogBuilder = AlertDialog.Builder(requireContext())
         dialogBuilder.setTitle(getString(R.string.title_dialog_filter_added))
         dialogBuilder.setMessage(getString(R.string.message_dialog_filter_added, getString(filterName)))
-        dialogBuilder.setPositiveButton("OK", DialogInterface.OnClickListener { dialog, _ ->
+        dialogBuilder.setPositiveButton("OK") { dialog, _ ->
             dialog.dismiss()
-        })
+        }
         dialogBuilder.show()
     }
 
@@ -153,7 +143,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
     override fun onFilterChoiceListener(filter: FilterEnum) {
         addFilter(filter)
-        filtersToggle(recyclerChoiceList)
+        recyclerChoiceList.toggle()
     }
 
     override fun onStarted() {
@@ -171,28 +161,6 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     override fun onSuccess() {
         requireView().snackbar(getString(R.string.message_success_send))
         requireView().findNavController().navigateUp()
-    }
-
-    private fun filtersToggle(layout: RecyclerView) {
-        val transition: Transition = Slide(Gravity.BOTTOM)
-        transition.duration = 500
-        transition.addTarget(layout)
-
-        if (layout.visibility == View.INVISIBLE) {
-            TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
-            layout.visibility = View.VISIBLE
-        } else {
-            TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
-            layout.visibility = View.INVISIBLE
-        }
-    }
-
-    private fun dismissList(layout: RecyclerView) {
-        val transition: Transition = Slide(Gravity.BOTTOM)
-        transition.duration = 500
-        transition.addTarget(layout)
-        TransitionManager.beginDelayedTransition(requireView() as ViewGroup, transition)
-        layout.visibility = View.INVISIBLE
     }
 
 

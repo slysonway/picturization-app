@@ -20,133 +20,29 @@
                 android:id="@+id/image_preview"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/picture_guideline"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/picture_guideline"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.5"/>
-
-            <TextView
-                android:id="@+id/txt_title_created_att"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/title_created_at"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/picture_guideline" />
-
-            <TextView
-                android:id="@+id/txt_created_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_title_created_att"
+            <include
+                android:id="@+id/details_layout"
+                layout="@layout/details_image_layout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/image_preview"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_title_created_att"
-                app:layout_constraintTop_toTopOf="@+id/txt_title_created_att" />
+                app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/txt_title_updated_at"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/bottom_menu"
+                layout="@layout/bottom_menu_details"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/title_updated_at"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_title_created_att" />
-
-            <TextView
-                android:id="@+id/txt_updated_at"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_title_updated_at"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_title_updated_at"
-                app:layout_constraintTop_toTopOf="@+id/txt_title_updated_at" />
-
-            <TextView
-                android:id="@+id/txt_title_treaty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/title_treaty"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_title_updated_at" />
-
-            <TextView
-                android:id="@+id/txt_treaty"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_title_treaty"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_title_treaty"
-                app:layout_constraintTop_toTopOf="@+id/txt_title_treaty" />
-
-            <TextView
-                android:id="@+id/txt_title_filters"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/title_filters"
-                android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_title_treaty" />
-
-            <TextView
-                android:id="@+id/txt_filter"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:textColor="@android:color/black"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="@+id/txt_title_filters"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/txt_title_filters"
-                app:layout_constraintTop_toTopOf="@+id/txt_title_filters" />
-
-            <Button
-                android:id="@+id/btn_download_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/btn_download_image"
-                android:onClick="@{viewModel::onDownloadButtonClick}"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txt_title_filters" />
-
-            <Button
-                android:id="@+id/btn_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:text="@string/btn_close"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/btn_download_image" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
 
