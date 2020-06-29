@@ -26,6 +26,7 @@ import com.esgi.picturization.util.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
+import kotlinx.android.synthetic.main.dual_picker_layout.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
 import kotlinx.android.synthetic.main.slider_layout.view.*
 import org.kodein.di.KodeinAware
@@ -82,18 +83,21 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             recyclerChoiceList.toggle()
             recyclerFilterList.dismiss()
             binding.slider.dismiss()
+            binding.dualPicker.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
             recyclerFilterList.toggle()
             recyclerChoiceList.dismiss()
             binding.slider.dismiss()
+            binding.dualPicker.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
             recyclerChoiceList.dismiss()
             recyclerFilterList.dismiss()
             binding.slider.dismiss()
+            binding.dualPicker.dismiss()
         }
 
         binding.bottomMenu.linear_layout_send.setOnClickListener {
@@ -124,6 +128,32 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
                 }
             }
             binding.slider.dismiss()
+        }
+
+        binding.dualPicker.first_btn.setOnClickListener {view ->
+            viewModel.currentFilter?.let {
+                if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION.name) {
+                    // if first button then false = 0
+                    it.parameter[0].value = "0"
+                } else {
+                    it.parameter[0].value = view.first_btn.text.toString()
+                }
+                addFilter(it)
+            }
+            binding.dualPicker.dismiss()
+        }
+
+        binding.dualPicker.second_btn.setOnClickListener { view ->
+            viewModel.currentFilter?.let {
+                if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION.name) {
+                    // if first button then false = 0
+                    it.parameter[0].value = "1"
+                } else {
+                    it.parameter[0].value = view.second_btn.text.toString()
+                }
+                addFilter(it)
+            }
+            binding.dualPicker.dismiss()
         }
 
 
@@ -182,11 +212,22 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             slider.title_slider.text = getString(R.string.title_intensity)
             slider.toggle()
         } else if (filterDetails.parameter[0].name == "size") {
-            //TODO launch number picker
+            val value = filterDetails.parameter[0].value.split(",")
+            dual_picker.first_btn.text = value[0]
+            dual_picker.second_btn.text = value[1]
+            dual_picker.title_dual_picker.text = getString(R.string.title_size)
+            dual_picker.toggle()
         } else if (filterDetails.parameter[0].name == "quality_reduction") {
-            //TODO launch number picker
+            val value = filterDetails.parameter[0].value.split(",")
+            dual_picker.first_btn.text = value[0]
+            dual_picker.second_btn.text = value[1]
+            dual_picker.title_dual_picker.text = getString(R.string.title_size)
+            dual_picker.toggle()
         } else if (filterDetails.parameter[0].name == "colored_chars") {
-            //TODO launch true or false
+            dual_picker.first_btn.text = "True"
+            dual_picker.second_btn.text = "False"
+            dual_picker.title_dual_picker.text = getString(R.string.title_size)
+            dual_picker.toggle()
         }
 
         //addFilter(filter)
