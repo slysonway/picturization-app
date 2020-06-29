@@ -5,6 +5,8 @@ import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.models.UrlImage
 import com.esgi.picturization.data.network.api.ImageApi
 import com.esgi.picturization.data.network.SafeApiRequest
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.*
 import retrofit2.Call
 import retrofit2.Response
@@ -15,7 +17,7 @@ class ImageRepository(
 ) : SafeApiRequest() {
 
     suspend fun sendImage(image: Image) : UrlImage {
-        val file = image.filters.joinToString(",")
+        val file = Gson().toJson(image.filters)
         val filters =
             RequestBody.create(MediaType.parse("multipart/form-data"), file)
         val requestFile: RequestBody =

@@ -18,7 +18,7 @@ interface ImageApi {
 
     @Multipart
     @POST("images/untreated")
-    suspend fun sendImage(@Part image: MultipartBody.Part, @Part("filters") filters: RequestBody) : Response<UrlImage>
+    suspend fun sendImage(@Part image: MultipartBody.Part, @Part("jsonFilters") filters: RequestBody) : Response<UrlImage>
 
     @GET("images/untreated")
     suspend fun getUntreatedImage() : Response<List<DbImage>>

@@ -2,6 +2,7 @@ package com.esgi.picturization.ui.home.image.transform
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
+import com.esgi.picturization.data.models.Filter
 import com.esgi.picturization.data.models.FilterEnum
 import com.esgi.picturization.databinding.FragmentTransformPictureBinding
 import com.esgi.picturization.ui.home.image.transform.list.choice.FilterChoiceListAdapter
@@ -21,11 +23,15 @@ import com.esgi.picturization.ui.home.image.transform.list.choice.OnFilterChoice
 import com.esgi.picturization.ui.home.image.transform.list.filter.FilterListAdapter
 import com.esgi.picturization.ui.home.image.transform.list.filter.OnFilterListInteractionListener
 import com.esgi.picturization.util.*
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
+import kotlinx.android.synthetic.main.slider_layout.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+import java.io.IOException
 
 
 /**
@@ -41,6 +47,8 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
     private lateinit var choiceListAdapter: FilterChoiceListAdapter
     private lateinit var recyclerChoiceList: RecyclerView
+
+    private lateinit var filterConfig: List<Filter>
 
     @SuppressLint("RestrictedApi")
     override fun onCreateView(
@@ -73,16 +81,19 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         binding.bottomMenu.linear_layout_filter.setOnClickListener {
             recyclerChoiceList.toggle()
             recyclerFilterList.dismiss()
+            binding.slider.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
             recyclerFilterList.toggle()
             recyclerChoiceList.dismiss()
+            binding.slider.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
             recyclerChoiceList.dismiss()
             recyclerFilterList.dismiss()
+            binding.slider.dismiss()
         }
 
         binding.bottomMenu.linear_layout_send.setOnClickListener {
@@ -93,6 +104,26 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             } else {
                 viewModel.sendImage()
             }
+        }
+
+        binding.slider.simple_slider.addOnChangeListener { _, value, _ ->
+            binding.slider.simple_slider_value.text = value.toInt().toString()
+        }
+
+        loadConfigFilter()?.let {
+            filterConfig = it
+        } ?: run {
+            //TODO add error
+        }
+
+        binding.slider.add_filter.setOnClickListener {
+            viewModel.currentFilter?.let {
+                if (it.parameter[0].name == "intensity") {
+                    it.parameter[0].value = binding.slider.simple_slider_value.text.toString()
+                    addFilter(it)
+                }
+            }
+            binding.slider.dismiss()
         }
 
 
@@ -108,12 +139,11 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         }
     }
 
-    private fun addFilter(filter: FilterEnum) {
+    private fun addFilter(filter: Filter) {
         viewModel.filterList.add(filter)
         filterListAdapter.setData(viewModel.filterList)
         bottom_menu.badge.text = filterListAdapter.itemCount.toString()
-
-        successAddFilterDialog(filter.title)
+        successAddFilterDialog(FilterEnum.valueOf(filter.name).title)
     }
 
     private fun emptyFilterDialog() {
@@ -142,7 +172,24 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     }
 
     override fun onFilterChoiceListener(filter: FilterEnum) {
-        addFilter(filter)
+        val filterDetails = filterConfig.first { it.name == filter.name }
+        viewModel.currentFilter = filterDetails
+        if (filterDetails.parameter.size > 1) {
+            //TODO find what to do
+        } else if (filterDetails.parameter[0].name == "intensity") {
+            val maxVal = filterDetails.parameter[0].value.split("-")
+            slider.simple_slider.valueTo = maxVal[1].toFloat()
+            slider.title_slider.text = getString(R.string.title_intensity)
+            slider.toggle()
+        } else if (filterDetails.parameter[0].name == "size") {
+            //TODO launch number picker
+        } else if (filterDetails.parameter[0].name == "quality_reduction") {
+            //TODO launch number picker
+        } else if (filterDetails.parameter[0].name == "colored_chars") {
+            //TODO launch true or false
+        }
+
+        //addFilter(filter)
         recyclerChoiceList.toggle()
     }
 
@@ -161,6 +208,27 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     override fun onSuccess() {
         requireView().snackbar(getString(R.string.message_success_send))
         requireView().findNavController().navigateUp()
+    }
+
+    private fun getJsonDataFromAsset(context: Context): String? {
+        val jsonString: String
+        try {
+            jsonString = context.assets.open(Constants.FILTER_CONFIG_PATH).bufferedReader().use { it.readText() }
+        } catch (ex: IOException) {
+            ex.printStackTrace()
+            return null
+        }
+        return jsonString
+    }
+
+    private fun loadConfigFilter(): List<Filter>? {
+        val jsonString = getJsonDataFromAsset(requireContext())
+        jsonString?.let {
+            val gson = Gson()
+            val filterListType = object : TypeToken<List<Filter>>() {}.type
+             return gson.fromJson(jsonString.trimIndent(), filterListType)
+        }
+        return null
     }
 
 

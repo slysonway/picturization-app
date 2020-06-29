@@ -5,5 +5,5 @@ import java.io.Serializable
 
 data class Image(
     val file: File,
-    val filters: List<FilterEnum>
+    val filters: List<Filter>
 ) : Serializable
