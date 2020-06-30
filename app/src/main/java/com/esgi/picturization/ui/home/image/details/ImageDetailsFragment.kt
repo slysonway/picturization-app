@@ -26,6 +26,8 @@ import com.esgi.picturization.data.network.download.downloadFile
 import com.esgi.picturization.databinding.FragmentImageDetailsBinding
 import com.esgi.picturization.ui.home.image.transform.list.filter.FilterListAdapter
 import com.esgi.picturization.util.dismiss
+import com.esgi.picturization.util.hide
+import com.esgi.picturization.util.show
 import com.esgi.picturization.util.toggle
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
@@ -124,6 +126,7 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
 
     private fun setDownloadButtonClickListener() {
         val folder = requireContext().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)
+
         val filename = "Test_download.png"
         val file = File(folder, filename)
         val uri = context?.let {
@@ -151,6 +154,7 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
                 context?.let { context ->
                     //TODO change download URL
                     downloadFile(context, viewModel.image.urlUntreated, uri)
+                    progress_bar.show()
                 }
             }
         }
@@ -166,16 +170,17 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
                         when (it) {
                             is DownloadResult.Success -> {
                                 viewModel.setDownload(false)
-                                //progress_bar.progress = 0
+                                progress_bar.progress = 0
                                 viewFile(file)
                                 //TODO SUCCESS DOWNLOAD
+                                progress_bar.hide()
                             }
                             is DownloadResult.Error -> {
                                 viewModel.setDownload(false)
                                 Toast.makeText(context, "Error while download File", Toast.LENGTH_LONG).show()
                             }
                             is DownloadResult.Progress -> {
-                                //progressbar.progress = it.progress
+                                progress_bar.progress = it.progress
                             }
                         }
                     }
