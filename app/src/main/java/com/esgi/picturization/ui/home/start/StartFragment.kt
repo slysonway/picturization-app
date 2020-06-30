@@ -60,12 +60,9 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
 
         recyclerImageList = binding.imageList
         recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
-        imageListAdapter =
-            ImageAdapter(true)
+        imageListAdapter = ImageAdapter(false)
         imageListAdapter.listener = this
         recyclerImageList.adapter = imageListAdapter
-
-
 
         val fabOpen = AnimationUtils.loadAnimation(context, R.anim.fab_open)
         val fabClose = AnimationUtils.loadAnimation(context, R.anim.fab_close)
@@ -121,9 +118,7 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
         swipe_container.setOnRefreshListener {
             viewModel.getImage()
         }
-
         viewModel.getImage()
-
     }
 
     private fun pickFromGalley() {

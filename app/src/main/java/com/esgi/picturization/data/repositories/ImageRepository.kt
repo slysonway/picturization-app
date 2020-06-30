@@ -3,13 +3,12 @@ package com.esgi.picturization.data.repositories
 import com.esgi.picturization.data.models.DbImage
 import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.models.UrlImage
-import com.esgi.picturization.data.network.api.ImageApi
 import com.esgi.picturization.data.network.SafeApiRequest
+import com.esgi.picturization.data.network.api.ImageApi
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
-import okhttp3.*
-import retrofit2.Call
-import retrofit2.Response
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 
 class ImageRepository(
@@ -34,5 +33,9 @@ class ImageRepository(
 
     suspend fun getTreatedImage() : List<DbImage> {
         return apiRequest { api.getTreatedImage() }
+    }
+
+    suspend fun getAllImage() : List<DbImage> {
+        return apiRequest { api.getAllImage() }
     }
 }

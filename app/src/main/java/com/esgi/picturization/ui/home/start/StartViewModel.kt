@@ -21,7 +21,7 @@ class StartViewModel(
         Coroutines.main {
             startListener?.onStarted()
             try {
-                val images = imageRepository.getTreatedImage()
+                val images = imageRepository.getAllImage()
                 //val images = imageRepository.getTreatedImage()
                 imageList.value = images.sortedByDescending { it.createdAt }
                 startListener?.onSuccess()
