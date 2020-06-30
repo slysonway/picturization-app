@@ -15,6 +15,8 @@ import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.esgi.picturization.BuildConfig
@@ -22,32 +24,24 @@ import com.esgi.picturization.R
 import com.esgi.picturization.data.network.download.DownloadResult
 import com.esgi.picturization.data.network.download.downloadFile
 import com.esgi.picturization.databinding.FragmentImageDetailsBinding
+import com.esgi.picturization.ui.home.image.transform.list.filter.FilterListAdapter
 import com.esgi.picturization.util.dismiss
 import com.esgi.picturization.util.toggle
 import io.ktor.client.HttpClient
-import io.ktor.client.call.call
 import io.ktor.client.engine.android.Android
-import io.ktor.client.request.url
-import io.ktor.http.HttpMethod
-import io.ktor.http.contentLength
-import io.ktor.http.isSuccess
 import kotlinx.android.synthetic.main.bottom_menu_details.view.*
 import kotlinx.android.synthetic.main.details_image_layout.view.*
 import kotlinx.android.synthetic.main.fragment_image_details.*
-import kotlinx.android.synthetic.main.fragment_image_details.bottom_menu
-import kotlinx.android.synthetic.main.fragment_image_details.image_preview
-import kotlinx.android.synthetic.main.fragment_transform_picture.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import java.io.File
-import java.io.OutputStream
 import java.text.SimpleDateFormat
-import kotlin.math.roundToInt
 
 
 /**
@@ -57,6 +51,9 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
     override val kodein by kodein()
     private val facotry: ImageDetailsViewModelFactory by instance<ImageDetailsViewModelFactory>()
     private lateinit var viewModel: ImageDetailsViewModel
+
+    private lateinit var filterListAdapter: FilterListAdapter
+    private lateinit var recyclerFilterList: RecyclerView
 
 
     override fun onCreateView(
@@ -68,12 +65,24 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
+        recyclerFilterList = binding.filterList
+        recyclerFilterList.layoutManager = LinearLayoutManager(context)
+        recyclerFilterList.setHasFixedSize(true)
+        filterListAdapter = FilterListAdapter()
+        recyclerFilterList.adapter = filterListAdapter
+
         binding.bottomMenu.linear_layout_details.setOnClickListener {
             binding.detailsLayout.toggle()
         }
 
+        binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
+            recyclerFilterList.toggle()
+            binding.detailsLayout.dismiss()
+        }
+
         binding.imagePreview.setOnClickListener {
             binding.detailsLayout.dismiss()
+            recyclerFilterList.dismiss()
         }
 
         return binding.root
@@ -101,8 +110,10 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
                         getString(R.string.date_format)
                     ).format(it)
                 }
-
                 details_layout.txt_treaty.text = args.image.treaty.toString()
+
+                filterListAdapter.setData(args.image.filters)
+                bottom_menu.badge.text = filterListAdapter.itemCount.toString()
 
                 viewModel.image = args.image
             }

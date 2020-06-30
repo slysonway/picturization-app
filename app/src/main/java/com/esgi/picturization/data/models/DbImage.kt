@@ -8,7 +8,7 @@ data class DbImage(
     val id: Int,
     val urlUntreated: String,
     val urlTreated: String,
-    val filters: HashMap<String, String>,
+    val filters: List<Filter>,
     val createdAt: Date,
     val updatedAt: Date?,
     val treaty: Boolean
