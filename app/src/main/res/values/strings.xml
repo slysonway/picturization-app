@@ -18,6 +18,15 @@
     <string name="bichromatic">Bichromatic</string>
     <string name="ascii_image_conversion">ASCII Conversion</string>
 
+    <!-- Param Filter Name -->
+    <string name="intensity">Intensity</string>
+    <string name="orientation">Orientation</string>
+    <string name="size">Size</string>
+    <string name="color_filter_1">Color 1</string>
+    <string name="color_filter_2">Color 2</string>
+    <string name="colored_chars">Colored Chars</string>
+    <string name="quality_reduction">Quality Reduction</string>
+
     <!-- Start Fragment -->
     <string name="txt_fab_take_picture">Take a Picture</string>
     <string name="txt_fab_gallery">Pick from Gallery</string>
@@ -34,8 +43,6 @@
     <string name="message_dialog_filter_added">The %s has been added</string>
     <string name="message_success_send">The Image was successfully sent</string>
     <string name="btn_add_filter">Add</string>
-    <string name="title_intensity">Intensity</string>
-    <string name="title_size">Size</string>
 
     <!-- ImageDetails Fragment -->
     <string name="title_image_details_fragment">Image Details</string>

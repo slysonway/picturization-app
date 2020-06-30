@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.Filter
-import com.esgi.picturization.data.models.FilterEnum
 
 class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {
 
@@ -26,9 +25,8 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         val currentItem = values[position]
-        val filterEnum = FilterEnum.valueOf(currentItem.name)
-        holder.filter.setText(filterEnum.title)
-        holder.icon.setImageResource(filterEnum.icon)
+        holder.filter.setText(currentItem.name.title)
+        holder.icon.setImageResource(currentItem.name.icon)
         holder.delete.setOnClickListener {
             listener?.onFilterListener(position)
         }

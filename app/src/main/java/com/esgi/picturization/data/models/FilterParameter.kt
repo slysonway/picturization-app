@@ -1,6 +1,6 @@
 package com.esgi.picturization.data.models
 
 data class FilterParameter(
-    val name: String,
+    val name: FilterParameterEnum,
     var value: String
 )

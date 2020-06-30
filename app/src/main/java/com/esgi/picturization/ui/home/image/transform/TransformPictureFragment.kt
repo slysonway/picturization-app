@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.Filter
 import com.esgi.picturization.data.models.FilterEnum
+import com.esgi.picturization.data.models.FilterParameterEnum
 import com.esgi.picturization.databinding.FragmentTransformPictureBinding
 import com.esgi.picturization.ui.home.image.transform.list.choice.FilterChoiceListAdapter
 import com.esgi.picturization.ui.home.image.transform.list.choice.OnFilterChoiceListInteractionListener
@@ -122,7 +123,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
         binding.slider.add_filter.setOnClickListener {
             viewModel.currentFilter?.let {
-                if (it.parameter[0].name == "intensity") {
+                if (it.parameter[0].name == FilterParameterEnum.intensity) {
                     it.parameter[0].value = binding.slider.simple_slider_value.text.toString()
                     addFilter(it)
                 }
@@ -132,7 +133,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
         binding.dualPicker.first_btn.setOnClickListener {view ->
             viewModel.currentFilter?.let {
-                if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION.name) {
+                if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION) {
                     // if first button then false = 0
                     it.parameter[0].value = "0"
                 } else {
@@ -145,7 +146,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
         binding.dualPicker.second_btn.setOnClickListener { view ->
             viewModel.currentFilter?.let {
-                if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION.name) {
+                if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION) {
                     // if first button then false = 0
                     it.parameter[0].value = "1"
                 } else {
@@ -173,7 +174,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         viewModel.filterList.add(filter)
         filterListAdapter.setData(viewModel.filterList)
         bottom_menu.badge.text = filterListAdapter.itemCount.toString()
-        successAddFilterDialog(FilterEnum.valueOf(filter.name).title)
+        successAddFilterDialog(filter.name.title)
     }
 
     private fun emptyFilterDialog() {
@@ -202,35 +203,33 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     }
 
     override fun onFilterChoiceListener(filter: FilterEnum) {
-        val filterDetails = filterConfig.first { it.name == filter.name }
+        val filterDetails = filterConfig.first { it.name == filter }
         viewModel.currentFilter = filterDetails
         if (filterDetails.parameter.size > 1) {
             //TODO find what to do
-        } else if (filterDetails.parameter[0].name == "intensity") {
+        } else if (filterDetails.parameter[0].name == FilterParameterEnum.intensity) {
             val maxVal = filterDetails.parameter[0].value.split("-")
             slider.simple_slider.valueTo = maxVal[1].toFloat()
-            slider.title_slider.text = getString(R.string.title_intensity)
+            slider.title_slider.text = getString(filterDetails.parameter[0].name.title)
             slider.toggle()
-        } else if (filterDetails.parameter[0].name == "size") {
+        } else if (filterDetails.parameter[0].name == FilterParameterEnum.size) {
             val value = filterDetails.parameter[0].value.split(",")
             dual_picker.first_btn.text = value[0]
             dual_picker.second_btn.text = value[1]
-            dual_picker.title_dual_picker.text = getString(R.string.title_size)
+            dual_picker.title_dual_picker.text = getString(filterDetails.parameter[0].name.title)
             dual_picker.toggle()
-        } else if (filterDetails.parameter[0].name == "quality_reduction") {
+        } else if (filterDetails.parameter[0].name == FilterParameterEnum.quality_reduction) {
             val value = filterDetails.parameter[0].value.split(",")
             dual_picker.first_btn.text = value[0]
             dual_picker.second_btn.text = value[1]
-            dual_picker.title_dual_picker.text = getString(R.string.title_size)
+            dual_picker.title_dual_picker.text = getString(filterDetails.parameter[0].name.title)
             dual_picker.toggle()
-        } else if (filterDetails.parameter[0].name == "colored_chars") {
+        } else if (filterDetails.parameter[0].name == FilterParameterEnum.colored_chars) {
             dual_picker.first_btn.text = "True"
             dual_picker.second_btn.text = "False"
-            dual_picker.title_dual_picker.text = getString(R.string.title_size)
+            dual_picker.title_dual_picker.text = getString(filterDetails.parameter[0].name.title)
             dual_picker.toggle()
         }
-
-        //addFilter(filter)
         recyclerChoiceList.toggle()
     }
 
