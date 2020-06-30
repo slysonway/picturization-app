@@ -28,7 +28,7 @@
         />
 
     <item
-        android:title="@string/title_about"
+        android:title="@string/title_about_fragment"
         android:id="@+id/aboutFragment"
         android:icon="@drawable/ic_info_black_24dp"/>
 

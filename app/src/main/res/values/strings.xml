@@ -63,9 +63,10 @@
     <!-- Settings Fragment -->
     <string name="title_settings">Settings</string>
 
-    <!-- About Fragment -->
-    <string name="title_about">About</string>
-
     <!-- TreatedList Fragment -->
     <string name="title_treated_list_fragment">Treated Images</string>
+
+    <!-- About Fragment -->
+    <string name="title_about_fragment">About</string>
+    <string name="about_version">%s V%s</string>
 </resources>

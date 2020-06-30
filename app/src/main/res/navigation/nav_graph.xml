@@ -63,6 +63,11 @@
             android:id="@+id/action_treatedListFragment_to_image_details_fragment"
             app:destination="@id/imageDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="com.esgi.picturization.ui.home.about.AboutFragment"
+        android:label="@string/title_about_fragment"
+        tools:layout="@layout/fragment_about" />
 
 
 </navigation>
