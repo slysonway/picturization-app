@@ -28,29 +28,20 @@ import com.esgi.picturization.ui.home.image.transform.list.filter.FilterListAdap
 import com.esgi.picturization.util.dismiss
 import com.esgi.picturization.util.toggle
 import io.ktor.client.HttpClient
-import io.ktor.client.call.call
 import io.ktor.client.engine.android.Android
-import io.ktor.client.request.url
-import io.ktor.http.HttpMethod
-import io.ktor.http.contentLength
-import io.ktor.http.isSuccess
 import kotlinx.android.synthetic.main.bottom_menu_details.view.*
 import kotlinx.android.synthetic.main.details_image_layout.view.*
 import kotlinx.android.synthetic.main.fragment_image_details.*
-import kotlinx.android.synthetic.main.fragment_image_details.bottom_menu
-import kotlinx.android.synthetic.main.fragment_image_details.image_preview
-import kotlinx.android.synthetic.main.fragment_transform_picture.*
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 import java.io.File
-import java.io.OutputStream
 import java.text.SimpleDateFormat
-import kotlin.math.roundToInt
 
 
 /**
