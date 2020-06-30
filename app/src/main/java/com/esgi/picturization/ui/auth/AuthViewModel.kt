@@ -1,8 +1,10 @@
 package com.esgi.picturization.ui.auth
 
 import android.content.Intent
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModel
+import com.auth0.android.jwt.JWT
 import com.esgi.picturization.data.db.entities.User
 import com.esgi.picturization.data.repositories.UserRepository
 import com.esgi.picturization.util.ApiException
@@ -34,7 +36,10 @@ class AuthViewModel(
             try {
                 val authResponse = repository.userLogin(email!!, password!!)
                 authResponse.token?.let {
-                    val u = User(3, "pierre", "pkettmus@gmail.com", it)
+                    val jwt = JWT(it)
+                    val id = jwt.getClaim("id")
+                    val name = jwt.getClaim("name")
+                    val u = User(id.asInt(), name.asString(), email, it)
                     authListener?.onSuccess(u)
                     repository.saveUser(u)
                     return@main
