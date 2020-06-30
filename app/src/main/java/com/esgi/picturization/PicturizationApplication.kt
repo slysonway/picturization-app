@@ -9,6 +9,7 @@ import com.esgi.picturization.data.network.interceptor.NetworkConnectionIntercep
 import com.esgi.picturization.data.repositories.ImageRepository
 import com.esgi.picturization.data.repositories.UserRepository
 import com.esgi.picturization.ui.auth.AuthViewModelFactory
+import com.esgi.picturization.ui.home.UserViewModelFactory
 import com.esgi.picturization.ui.home.image.details.ImageDetailsViewModelFactory
 import com.esgi.picturization.ui.home.profile.ProfileViewModelFactory
 import com.esgi.picturization.ui.home.start.StartViewModelFactory
@@ -72,6 +73,7 @@ class PicturizationApplication: Application(), KodeinAware {
         bind() from provider { StartViewModelFactory(instance()) }
         bind() from provider { TransformPictureViewModelFactory(instance()) }
         bind() from provider { UntreatedListViewModelFactory(instance()) }
-        bind()from provider { ImageDetailsViewModelFactory(instance()) }
+        bind() from provider { ImageDetailsViewModelFactory(instance()) }
+        bind() from provider { UserViewModelFactory(instance()) }
     }
 }
