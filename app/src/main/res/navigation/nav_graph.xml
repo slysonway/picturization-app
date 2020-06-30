@@ -46,7 +46,7 @@
     <fragment
         android:id="@+id/untreatedListFragment"
         android:name="com.esgi.picturization.ui.home.untreated.UntreatedListFragment"
-        android:label="UntreatedListFragment"
+        android:label="@string/title_untreated_list_fragment"
         tools:layout="@layout/fragment_untreated_list">
         <action
             android:id="@+id/action_untreatedListFragment_to_image_details_fragment"
