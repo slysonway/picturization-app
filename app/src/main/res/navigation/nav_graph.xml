@@ -52,4 +52,6 @@
             android:id="@+id/action_untreatedListFragment_to_image_details_fragment"
             app:destination="@id/imageDetailsFragment" />
     </fragment>
+
+
 </navigation>

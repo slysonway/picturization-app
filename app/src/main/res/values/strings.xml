@@ -57,6 +57,8 @@
 
     <!-- Profile Fragment -->
     <string name="title_profile">Profile</string>
+    <string name="title_name">Name</string>
+    <string name="title_email">Email</string>
 
     <!-- Settings Fragment -->
     <string name="title_settings">Settings</string>

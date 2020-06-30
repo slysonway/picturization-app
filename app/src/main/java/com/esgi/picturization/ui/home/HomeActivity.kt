@@ -8,6 +8,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.esgi.picturization.R
 import com.esgi.picturization.databinding.NavHeaderBinding
+import com.esgi.picturization.ui.home.profile.UserViewModel
+import com.esgi.picturization.ui.home.profile.UserViewModelFactory
 import kotlinx.android.synthetic.main.activity_home.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein

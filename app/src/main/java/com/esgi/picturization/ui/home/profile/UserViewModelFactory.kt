@@ -1,4 +1,4 @@
-package com.esgi.picturization.ui.home
+package com.esgi.picturization.ui.home.profile
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
