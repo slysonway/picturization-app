@@ -34,6 +34,7 @@ import io.ktor.client.engine.android.Android
 import kotlinx.android.synthetic.main.bottom_menu_details.view.*
 import kotlinx.android.synthetic.main.details_image_layout.view.*
 import kotlinx.android.synthetic.main.fragment_image_details.*
+import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -154,7 +155,7 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
                 context?.let { context ->
                     //TODO change download URL
                     downloadFile(context, viewModel.image.urlUntreated, uri)
-                    progress_bar.show()
+                    horizontal_progress_layout.show()
                 }
             }
         }
@@ -170,17 +171,17 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
                         when (it) {
                             is DownloadResult.Success -> {
                                 viewModel.setDownload(false)
-                                progress_bar.progress = 0
+                                horizontal_progress_layout.progress_bar.progress = 0
                                 viewFile(file)
                                 //TODO SUCCESS DOWNLOAD
-                                progress_bar.hide()
+                                horizontal_progress_layout.hide()
                             }
                             is DownloadResult.Error -> {
                                 viewModel.setDownload(false)
                                 Toast.makeText(context, "Error while download File", Toast.LENGTH_LONG).show()
                             }
                             is DownloadResult.Progress -> {
-                                progress_bar.progress = it.progress
+                                horizontal_progress_layout.progress_bar.progress = it.progress
                             }
                         }
                     }
