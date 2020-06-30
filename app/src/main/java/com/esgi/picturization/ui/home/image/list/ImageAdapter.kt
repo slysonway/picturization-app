@@ -1,22 +1,19 @@
 package com.esgi.picturization.ui.home.image.list
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.TextView
+import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.signature.MediaStoreSignature
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.DbImage
-import java.text.SimpleDateFormat
 
-class ImageAdapter(
-    val isTreated: Boolean
-): RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
+class ImageAdapter: RecyclerView.Adapter<ImageAdapter.ImageViewHolder>() {
     private var values: MutableList<DbImage> = ArrayList()
     var listener: OnRecycleListInteractionListener? = null
 
@@ -30,14 +27,20 @@ class ImageAdapter(
 
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
         val currentItem = values[position]
-        holder.name.text = SimpleDateFormat(holder.itemView.resources.getString(R.string.date_format)).format(currentItem.createdAt)
+
+        if (currentItem.treaty) {
+            holder.status.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.green))
+        } else {
+            holder.status.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, R.color.red))
+        }
+
         val circularProgressDrawable = CircularProgressDrawable(holder.itemView.context)
         circularProgressDrawable.strokeWidth = 5f
         circularProgressDrawable.centerRadius = 30f
         circularProgressDrawable.start()
 
         Glide.with(holder.itemView)
-            .load(if (isTreated) currentItem.urlTreated else currentItem.urlUntreated)
+            .load(if (currentItem.treaty) currentItem.urlTreated else currentItem.urlUntreated)
             .placeholder(circularProgressDrawable)
             .centerCrop()
             .into(holder.image)
@@ -57,7 +60,7 @@ class ImageAdapter(
     }
 
     class ImageViewHolder(view: View): RecyclerView.ViewHolder(view) {
-        val name: TextView = view.findViewById(R.id.txt_name)
+        val status: CardView = view.findViewById(R.id.status_badge)
         val image: ImageView = view.findViewById(R.id.image_view)
     }
 }

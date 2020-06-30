@@ -40,7 +40,7 @@ class TreatedListFragment : Fragment(), KodeinAware, TreatedListener, OnRecycleL
 
         recyclerImageList = binding.imageList
         recyclerImageList.layoutManager = GridLayoutManager(requireContext(), 2)
-        imageListAdapter = ImageAdapter(true)
+        imageListAdapter = ImageAdapter()
         imageListAdapter.listener = this
         recyclerImageList.adapter = imageListAdapter
 

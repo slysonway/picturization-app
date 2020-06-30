@@ -6,4 +6,7 @@
     <color name="colorAccent">#666ad1</color>
 
     <color name="lightGray">#ededed</color>
+
+    <color name="red">#FF0000</color>
+    <color name="green">#4CAF50</color>
 </resources>
