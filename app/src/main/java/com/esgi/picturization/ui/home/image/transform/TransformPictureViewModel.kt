@@ -6,6 +6,7 @@ import android.view.View
 import androidx.core.net.toUri
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.esgi.picturization.data.models.Filter
 import com.esgi.picturization.data.models.FilterEnum
 import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.data.repositories.ImageRepository
@@ -18,8 +19,10 @@ class TransformPictureViewModel(
     private val repository: ImageRepository
 ): ViewModel() {
     val image: MutableLiveData<Image> = MutableLiveData()
-    val filterList: ArrayList<FilterEnum> = ArrayList()
+    val filterList: ArrayList<Filter> = ArrayList()
     var transformListener: TransformListener? = null
+
+    var currentFilter: Filter? = null
 
     fun getImageUri(): Uri {
         return image.value!!.file.toUri()

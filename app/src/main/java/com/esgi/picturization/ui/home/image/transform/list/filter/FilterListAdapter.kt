@@ -7,11 +7,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
-import com.esgi.picturization.data.models.FilterEnum
+import com.esgi.picturization.data.models.Filter
 
 class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {
 
-    private var values: MutableList<FilterEnum> = ArrayList()
+    private var values: MutableList<Filter> = ArrayList()
     var listener: OnFilterListInteractionListener? = null
 
 
@@ -25,8 +25,8 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
 
     override fun onBindViewHolder(holder: FilterViewHolder, position: Int) {
         val currentItem = values[position]
-        holder.filter.setText(currentItem.title)
-        holder.icon.setImageResource(currentItem.icon)
+        holder.filter.setText(currentItem.name.title)
+        holder.icon.setImageResource(currentItem.name.icon)
         holder.delete.setOnClickListener {
             listener?.onFilterListener(position)
         }
@@ -36,18 +36,18 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
         return values.size
     }
 
-    fun setData(data: List<FilterEnum>) {
+    fun setData(data: List<Filter>) {
         values.clear()
         values.addAll(data)
         notifyDataSetChanged()
     }
 
-    fun addFilter(filter: FilterEnum) {
+    fun addFilter(filter: Filter) {
         values.add(filter)
         notifyDataSetChanged()
     }
 
-    fun getAllFilter(): List<FilterEnum> {
+    fun getAllFilter(): List<Filter> {
         return values
     }
     private fun removeFilter(position: Int) {
