@@ -53,5 +53,16 @@
             app:destination="@id/imageDetailsFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/treatedListFragment"
+        android:name="com.esgi.picturization.ui.home.treated.TreatedListFragment"
+        android:label="@string/title_treated_list_fragment"
+        tools:layout="@layout/fragment_treated_list">
+
+        <action
+            android:id="@+id/action_treatedListFragment_to_image_details_fragment"
+            app:destination="@id/imageDetailsFragment" />
+    </fragment>
+
 
 </navigation>

@@ -32,7 +32,7 @@ class HomeActivity : AppCompatActivity(), KodeinAware {
         navViewHeaderBinding.lifecycleOwner = this
 
         val navController = Navigation.findNavController(this, R.id.fragment)
-        appBarConfiguration = AppBarConfiguration(setOf(R.id.startFragment, R.id.untreatedListFragment), drawer_layout)
+        appBarConfiguration = AppBarConfiguration(setOf(R.id.startFragment, R.id.untreatedListFragment, R.id.treatedListFragment), drawer_layout)
         NavigationUI.setupWithNavController(nav_view, navController)
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration)
     }

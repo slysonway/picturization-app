@@ -65,4 +65,7 @@
 
     <!-- About Fragment -->
     <string name="title_about">About</string>
+
+    <!-- TreatedList Fragment -->
+    <string name="title_treated_list_fragment">Treated Images</string>
 </resources>

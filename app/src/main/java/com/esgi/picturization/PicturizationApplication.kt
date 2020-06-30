@@ -13,6 +13,7 @@ import com.esgi.picturization.ui.home.profile.UserViewModelFactory
 import com.esgi.picturization.ui.home.image.details.ImageDetailsViewModelFactory
 import com.esgi.picturization.ui.home.start.StartViewModelFactory
 import com.esgi.picturization.ui.home.image.transform.TransformPictureViewModelFactory
+import com.esgi.picturization.ui.home.treated.TreatedListViewModelFactory
 import com.esgi.picturization.ui.home.untreated.UntreatedListViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -73,5 +74,6 @@ class PicturizationApplication: Application(), KodeinAware {
         bind() from provider { UntreatedListViewModelFactory(instance()) }
         bind() from provider { ImageDetailsViewModelFactory(instance()) }
         bind() from provider { UserViewModelFactory(instance()) }
+        bind() from provider { TreatedListViewModelFactory(instance()) }
     }
 }
