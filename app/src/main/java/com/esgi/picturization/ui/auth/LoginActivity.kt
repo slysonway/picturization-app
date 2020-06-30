@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.auth0.android.jwt.JWT
 import com.esgi.picturization.R
 import com.esgi.picturization.data.db.entities.User
 import com.esgi.picturization.databinding.ActivityLoginBinding
@@ -17,6 +18,8 @@ import kotlinx.android.synthetic.main.activity_login.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.kodein
 import org.kodein.di.generic.instance
+import java.time.LocalDate
+import java.util.*
 
 class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
 
@@ -32,15 +35,20 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
 
         viewModel.authListener = this
 
-        val extra = intent.getStringExtra("EXCEPTION_CODE")
-
         viewModel.getLoggedInUser().observe(this, Observer { user ->
-            if (user != null && extra == null) {
-                Intent(this, HomeActivity::class.java).also {
-                    // use for when user use back key he doesn't come back to login activity
-                    it.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    startActivity(it)
+            if (user != null) {
+                user.token?.let {
+                    val isExpired = JWT(it).isExpired(Date().time)
+                    if (!isExpired) {
+                        Intent(this, HomeActivity::class.java).also {
+                            // use for when user use back key he doesn't come back to login activity
+                            it.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            startActivity(it)
+                        }
+                    }
                 }
+
             }
         })
     }

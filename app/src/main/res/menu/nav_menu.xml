@@ -2,18 +2,35 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:title="Home"
+        android:title="@string/title_home"
         android:id="@+id/startFragment"
         android:icon="@drawable/ic_home_black_24dp"/>
 
     <item
-        android:title="Users"
-        android:id="@+id/fragmentUsers"
+        android:title="@string/title_profile"
+        android:id="@+id/profileFragment"
         android:icon="@drawable/ic_account_circle_blue_24dp"/>
 
     <item
-        android:title="Untreated"
+        android:title="@string/title_treaty"
+        android:id="@+id/treatedListFragment"
+        android:icon="@drawable/ic_baseline_done_24"/>
+
+    <item
+        android:title="@string/title_untreated_list_fragment"
         android:id="@+id/untreatedListFragment"
         android:icon="@drawable/ic_loop_blue_24dp"/>
+
+    <item
+        android:title="@string/title_settings"
+        android:id="@+id/settingFragment"
+        android:icon="@drawable/ic_baseline_settings_black_24dp"
+        />
+
+    <item
+        android:title="@string/title_about"
+        android:id="@+id/aboutFragment"
+        android:icon="@drawable/ic_info_black_24dp"/>
+
 
 </menu>
