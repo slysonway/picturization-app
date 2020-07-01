@@ -1,7 +1,9 @@
 package com.esgi.picturization.ui.auth
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -26,6 +28,7 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
     override val kodein by kodein()
     private val factory: AuthViewModelFactory by instance<AuthViewModelFactory>()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -38,8 +41,8 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
         viewModel.getLoggedInUser().observe(this, Observer { user ->
             if (user != null) {
                 user.token?.let {
-                    val isExpired = JWT(it).isExpired(Date().time)
-                    if (!isExpired) {
+                    val expired = Date() > JWT(it).expiresAt
+                    if (!expired) {
                         Intent(this, HomeActivity::class.java).also {
                             // use for when user use back key he doesn't come back to login activity
                             it.flags =

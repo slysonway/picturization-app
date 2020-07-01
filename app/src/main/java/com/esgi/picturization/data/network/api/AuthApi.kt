@@ -1,6 +1,7 @@
 package com.esgi.picturization.data.network.api
 
 import com.esgi.picturization.data.models.UserLogin
+import com.esgi.picturization.data.models.UserRegister
 import com.esgi.picturization.data.network.interceptor.NetworkConnectionInterceptor
 import com.esgi.picturization.data.network.responses.AuthResponse
 import com.esgi.picturization.util.Constants
@@ -22,13 +23,10 @@ interface AuthApi {
         @Body userLogin: UserLogin
     ) : Response<AuthResponse>
 
-    @FormUrlEncoded
-    @POST("register")
+    @POST("users/register")
     suspend fun userSignup(
-        @Field("name") name: String,
-        @Field("email") email: String,
-        @Field("password") password: String
-    ): Response<AuthResponse>
+        @Body userRegister: UserRegister
+    ): Response<Int>
 
 
     companion object {

@@ -7,10 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.auth0.android.jwt.JWT
 import com.esgi.picturization.data.db.entities.User
 import com.esgi.picturization.data.repositories.UserRepository
-import com.esgi.picturization.util.ApiException
-import com.esgi.picturization.util.Coroutines
-import com.esgi.picturization.util.ForbiddenException
-import com.esgi.picturization.util.NoInternetException
+import com.esgi.picturization.util.*
 
 class AuthViewModel(
     private val repository: UserRepository
@@ -49,6 +46,8 @@ class AuthViewModel(
             } catch (e: NoInternetException) {
                 authListener?.onFailure(e.message!!)
             } catch (e: ForbiddenException) {
+                authListener?.onFailure(e.message!!)
+            } catch (e: NotFoundException) {
                 authListener?.onFailure(e.message!!)
             } finally {
                     authListener?.onFinish()
@@ -94,10 +93,8 @@ class AuthViewModel(
         Coroutines.main {
             try {
                 val authResponse = repository.userSignup(name!!, email!!, password!!)
-                authResponse.token?.let {
-                    val u = User(3, "pierre", "pkettmus@gmail.com", it)
-                    authListener?.onSuccess(u)
-                    repository.saveUser(u)
+                if (authResponse != null) {
+                    authListener?.onSuccess(User())
                     return@main
                 }
                 authListener?.onFailure("problem_sign")
@@ -107,6 +104,8 @@ class AuthViewModel(
                 authListener?.onFailure(e.message!!)
             } catch (e: ForbiddenException) {
                 authListener?.onFinish()
+            } catch (e: NotFoundException) {
+                authListener?.onFailure(e.message!!)
             }
         }
     }
