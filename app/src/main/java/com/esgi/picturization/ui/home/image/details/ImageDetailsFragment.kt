@@ -101,7 +101,7 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
             if (!bundle.isEmpty) {
                 val args = ImageDetailsFragmentArgs.fromBundle(bundle)
                 Glide.with(requireView())
-                    .load(args.image.urlUntreated)
+                    .load(if (args.image.treaty) args.image.urlTreated else args.image.urlUntreated)
                     .placeholder(circularProgressDrawable)
                     .into(image_preview)
                 details_layout.txt_created_at.text = SimpleDateFormat(
