@@ -154,7 +154,7 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
             data?.data?.let { uri ->
                 context?.let { context ->
                     //TODO change download URL
-                    downloadFile(context, viewModel.image.urlUntreated, uri)
+                    downloadFile(context,if (viewModel.image.treaty) viewModel.image.urlTreated else viewModel.image.urlUntreated, uri)
                     horizontal_progress_layout.show()
                 }
             }

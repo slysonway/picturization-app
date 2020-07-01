@@ -9,9 +9,10 @@
 
     <ImageView
         android:id="@+id/app_logo"
-        android:layout_width="144dp"
-        android:layout_height="144dp"
+        android:layout_width="288dp"
+        android:layout_height="288dp"
         android:layout_margin="64dp"
+        android:src="@drawable/cropped_diaphragme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

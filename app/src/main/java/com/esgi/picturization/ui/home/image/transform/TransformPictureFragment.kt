@@ -126,8 +126,11 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
                 if (it.parameter[0].name == FilterParameterEnum.intensity) {
                     it.parameter[0].value = binding.slider.simple_slider_value.text.toString()
                     addFilter(it)
+                } else if (it.parameter[0].name == FilterParameterEnum.quality_reduction) {
+                    it.parameter[0].value = binding.slider.simple_slider_value.text.toString()
+                    addFilter(it)
                 }
-            }
+             }
             binding.slider.dismiss()
         }
 
@@ -219,11 +222,10 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             dual_picker.title_dual_picker.text = getString(filterDetails.parameter[0].name.title)
             dual_picker.toggle()
         } else if (filterDetails.parameter[0].name == FilterParameterEnum.quality_reduction) {
-            val value = filterDetails.parameter[0].value.split(",")
-            dual_picker.first_btn.text = value[0]
-            dual_picker.second_btn.text = value[1]
-            dual_picker.title_dual_picker.text = getString(filterDetails.parameter[0].name.title)
-            dual_picker.toggle()
+            val maxVal = filterDetails.parameter[0].value.split("-")
+            slider.simple_slider.valueTo = maxVal[1].toFloat()
+            slider.title_slider.text = getString(filterDetails.parameter[0].name.title)
+            slider.toggle()
         } else if (filterDetails.parameter[0].name == FilterParameterEnum.colored_chars) {
             dual_picker.first_btn.text = "True"
             dual_picker.second_btn.text = "False"

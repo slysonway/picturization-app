@@ -69,4 +69,7 @@
     <!-- About Fragment -->
     <string name="title_about_fragment">About</string>
     <string name="about_version">%s V%s</string>
+
+    <!-- ProgressBar -->
+    <string name="txt_please_wait">Please Wait …</string>
 </resources>
