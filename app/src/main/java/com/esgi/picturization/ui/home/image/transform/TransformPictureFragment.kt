@@ -29,6 +29,7 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.dual_picker_layout.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
+import kotlinx.android.synthetic.main.recycler_list_layout.view.*
 import kotlinx.android.synthetic.main.slider_layout.view.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
@@ -72,38 +73,42 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         recyclerChoiceList.adapter = choiceListAdapter
 
 
-        recyclerFilterList = binding.filterList
+        recyclerFilterList = binding.filterList.list
         recyclerFilterList.layoutManager = LinearLayoutManager(context)
         recyclerFilterList.setHasFixedSize(true)
         filterListAdapter =
-            FilterListAdapter()
+            FilterListAdapter(false)
         filterListAdapter.listener = this
         recyclerFilterList.adapter = filterListAdapter
 
         binding.bottomMenu.linear_layout_filter.setOnClickListener {
             recyclerChoiceList.toggle()
-            recyclerFilterList.dismiss()
+            //recyclerFilterList.dismiss()
+            binding.filterList.dismiss()
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
-            recyclerFilterList.toggle()
+            //recyclerFilterList.toggle()
             recyclerChoiceList.dismiss()
+            binding.filterList.toggle()
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
             recyclerChoiceList.dismiss()
-            recyclerFilterList.dismiss()
+            //recyclerFilterList.dismiss()
+            binding.filterList.dismiss()
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
         }
 
         binding.bottomMenu.linear_layout_send.setOnClickListener {
             recyclerChoiceList.dismiss()
-            recyclerFilterList.dismiss()
+            //recyclerFilterList.dismiss()
+            binding.filterList.dismiss()
             if (filterListAdapter.itemCount < 1) {
                 emptyFilterDialog()
             } else {
@@ -117,19 +122,13 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
 
         loadConfigFilter()?.let {
             filterConfig = it
-        } ?: run {
-            //TODO add error
         }
 
         binding.slider.add_filter.setOnClickListener {
             viewModel.currentFilter?.let {
-                if (it.parameter[0].name == FilterParameterEnum.intensity) {
-                    it.parameter[0].value = binding.slider.simple_slider_value.text.toString()
-                    addFilter(it)
-                } else if (it.parameter[0].name == FilterParameterEnum.quality_reduction) {
-                    it.parameter[0].value = binding.slider.simple_slider_value.text.toString()
-                    addFilter(it)
-                }
+                val toAdd = it
+                toAdd.parameter[0].value = binding.slider.simple_slider_value.text.toString()
+                addFilter(toAdd)
              }
             binding.slider.dismiss()
         }
@@ -138,9 +137,11 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             viewModel.currentFilter?.let {
                 if (it.name == FilterEnum.ASCII_IMAGE_CONVERSION) {
                     // if first button then false = 0
-                    it.parameter[0].value = "0"
+                    val toAdd = it
+                    toAdd.parameter[0].value = "0"
                 } else {
-                    it.parameter[0].value = view.first_btn.text.toString()
+                    val toAdd = it
+                    toAdd.parameter[0].value = view.first_btn.text.toString()
                 }
                 addFilter(it)
             }
@@ -210,6 +211,12 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
         viewModel.currentFilter = filterDetails
         if (filterDetails.parameter.size > 1) {
             //TODO find what to do
+            if (filterDetails.name == FilterEnum.RADIAL_BLUR) {
+                //TODO add picker between horizontal & vertical
+            }
+            if (filterDetails.name == FilterEnum.BICHROMATIC) {
+
+            }
         } else if (filterDetails.parameter[0].name == FilterParameterEnum.intensity) {
             val maxVal = filterDetails.parameter[0].value.split("-")
             slider.simple_slider.valueTo = maxVal[1].toFloat()

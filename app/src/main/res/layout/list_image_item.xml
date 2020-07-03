@@ -19,20 +19,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/txt_name"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:background="#80303F9F"-->
-<!--            android:maxLines="1"-->
-<!--            android:padding="4dp"-->
-<!--            android:textAlignment="center"-->
-<!--            android:textSize="14sp"-->
-<!--            android:textColor="@android:color/primary_text_dark"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/image_view" />-->
-
         <androidx.cardview.widget.CardView
             android:id="@+id/status_badge"
             android:layout_width="16dp"
