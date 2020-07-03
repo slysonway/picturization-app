@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.bottom_menu_details.view.*
 import kotlinx.android.synthetic.main.details_image_layout.view.*
 import kotlinx.android.synthetic.main.fragment_image_details.*
 import kotlinx.android.synthetic.main.horizontal_progress_bar.view.*
+import kotlinx.android.synthetic.main.recycler_list_layout.view.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -68,24 +69,25 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        recyclerFilterList = binding.filterList
+        recyclerFilterList = binding.filterList.list
         recyclerFilterList.layoutManager = LinearLayoutManager(context)
         recyclerFilterList.setHasFixedSize(true)
-        filterListAdapter = FilterListAdapter()
+        filterListAdapter = FilterListAdapter(true)
         recyclerFilterList.adapter = filterListAdapter
 
         binding.bottomMenu.linear_layout_details.setOnClickListener {
             binding.detailsLayout.toggle()
+            binding.filterList.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
-            recyclerFilterList.toggle()
+            binding.filterList.toggle()
             binding.detailsLayout.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
             binding.detailsLayout.dismiss()
-            recyclerFilterList.dismiss()
+            binding.filterList.dismiss()
         }
 
         return binding.root

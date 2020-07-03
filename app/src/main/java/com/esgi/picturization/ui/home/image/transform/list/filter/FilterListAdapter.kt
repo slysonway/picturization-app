@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.esgi.picturization.R
 import com.esgi.picturization.data.models.Filter
 
-class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {
+class FilterListAdapter(private val isDetails: Boolean): RecyclerView.Adapter<FilterListAdapter.FilterViewHolder>() {
 
     private var values: MutableList<Filter> = ArrayList()
     var listener: OnFilterListInteractionListener? = null
@@ -27,6 +27,9 @@ class FilterListAdapter: RecyclerView.Adapter<FilterListAdapter.FilterViewHolder
         val currentItem = values[position]
         holder.filter.setText(currentItem.name.title)
         holder.icon.setImageResource(currentItem.name.icon)
+        if (isDetails) {
+            holder.delete.visibility = View.GONE
+        }
         holder.delete.setOnClickListener {
             listener?.onFilterListener(position)
         }

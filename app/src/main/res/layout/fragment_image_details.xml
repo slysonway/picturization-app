@@ -35,16 +35,26 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.recyclerview.widget.RecyclerView
+
+            <include
                 android:id="@+id/filter_list"
+                layout="@layout/recycler_list_layout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:background="@android:color/white"
+                android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="@+id/image_preview"
-                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                tools:listitem="@layout/list_filter_item"
                 android:visibility="invisible"/>
+
+<!--            <androidx.recyclerview.widget.RecyclerView-->
+<!--                android:id="@+id/filter_list"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:background="@android:color/white"-->
+<!--                app:layout_constraintBottom_toBottomOf="@+id/image_preview"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                tools:listitem="@layout/list_filter_item"-->
+<!--                android:visibility="invisible"/>-->
 
             <include
                 android:id="@+id/bottom_menu"
