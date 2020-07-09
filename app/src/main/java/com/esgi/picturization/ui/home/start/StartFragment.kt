@@ -25,6 +25,8 @@ import com.esgi.picturization.data.models.Image
 import com.esgi.picturization.databinding.FragmentStartBinding
 import com.esgi.picturization.ui.home.image.list.ImageAdapter
 import com.esgi.picturization.ui.home.image.list.OnRecycleListInteractionListener
+import com.esgi.picturization.util.hide
+import com.esgi.picturization.util.show
 import com.esgi.picturization.util.snackbar
 import com.esgi.picturization.util.toast
 import kotlinx.android.synthetic.main.fragment_start.*
@@ -227,6 +229,11 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
     }
 
     override fun onSuccess() {
+        if (viewModel.imageList.value.isNullOrEmpty()) {
+            txt_empty_list.show()
+        } else {
+            txt_empty_list.hide()
+        }
         imageListAdapter.setData(viewModel.imageList.value!!)
     }
 

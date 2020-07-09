@@ -30,6 +30,7 @@
     <string name="txt_fab_take_picture">Take a Picture</string>
     <string name="txt_fab_gallery">Pick from Gallery</string>
     <string name="error_open_picture">An error occur with the picture</string>
+    <string name="txt_empty_list">No Image sent to the server</string>
 
     <!-- TranformPicture Fragment -->
     <string name="title_transform_fragment">Transform</string>
@@ -54,6 +55,7 @@
 
     <!-- UntreatedList Fragment -->
     <string name="title_untreated_list_fragment">Untreated Images</string>
+    <string name="txt_empty_list_untreated">No Image to Process</string>
 
     <!-- Profile Fragment -->
     <string name="title_profile">Profile</string>
@@ -65,6 +67,7 @@
 
     <!-- TreatedList Fragment -->
     <string name="title_treated_list_fragment">Treated Images</string>
+    <string name="txt_empty_list_treated">No Image Treated</string>
 
     <!-- About Fragment -->
     <string name="title_about_fragment">About</string>

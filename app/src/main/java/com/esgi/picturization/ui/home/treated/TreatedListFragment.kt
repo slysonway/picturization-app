@@ -14,8 +14,13 @@ import com.esgi.picturization.R
 import com.esgi.picturization.databinding.FragmentTreatedListBinding
 import com.esgi.picturization.ui.home.image.list.ImageAdapter
 import com.esgi.picturization.ui.home.image.list.OnRecycleListInteractionListener
+import com.esgi.picturization.util.hide
+import com.esgi.picturization.util.show
 import com.esgi.picturization.util.snackbar
 import kotlinx.android.synthetic.main.fragment_start.*
+import kotlinx.android.synthetic.main.fragment_start.swipe_container
+import kotlinx.android.synthetic.main.fragment_start.txt_empty_list
+import kotlinx.android.synthetic.main.fragment_treated_list.*
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -67,6 +72,11 @@ class TreatedListFragment : Fragment(), KodeinAware, TreatedListener, OnRecycleL
     }
 
     override fun onSuccess() {
+        if (viewModel.imageList.isNullOrEmpty()) {
+            txt_empty_list_treated.show()
+        } else {
+            txt_empty_list_treated.hide()
+        }
         imageListAdapter.setData(viewModel.imageList)
     }
 
