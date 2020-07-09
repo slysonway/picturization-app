@@ -85,12 +85,13 @@
                         android:layout_height="wrap_content"/>
 
                 <Button
-                        android:onClick="@{viewmodel::onLoginButtonClick}"
-                        android:layout_gravity="center_horizontal"
-                        android:textAllCaps="false"
-                        android:text="Sign In"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"/>
+                    android:id="@+id/btn_login"
+                    android:onClick="@{viewmodel::onLoginButtonClick}"
+                    android:layout_gravity="center_horizontal"
+                    android:textAllCaps="false"
+                    android:text="Sign In"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

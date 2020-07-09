@@ -1,8 +1,10 @@
 package com.esgi.picturization.ui.auth
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -57,16 +59,25 @@ class LoginActivity : AppCompatActivity(), AuthListener, KodeinAware {
     }
 
     override fun onStarted() {
+        val imm: InputMethodManager =
+            getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(
+            getCurrentFocus()?.getWindowToken(),
+            InputMethodManager.RESULT_UNCHANGED_SHOWN
+        )
+        btn_login.isEnabled = false
         progress_bar.show()
     }
 
     override fun onSuccess(user: User) {
         progress_bar.hide()
+        btn_login.isEnabled = true
     }
 
     override fun onFailure(message: String) {
         progress_bar.hide()
         root_layout.snackbar(message)
+        btn_login.isEnabled = true
     }
 
     override fun onFinish() {

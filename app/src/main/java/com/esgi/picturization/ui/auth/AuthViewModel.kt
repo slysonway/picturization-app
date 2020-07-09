@@ -103,9 +103,11 @@ class AuthViewModel(
             } catch (e: NoInternetException) {
                 authListener?.onFailure(e.message!!)
             } catch (e: ForbiddenException) {
-                authListener?.onFinish()
+                authListener?.onFailure(e.message!!)
             } catch (e: NotFoundException) {
                 authListener?.onFailure(e.message!!)
+            } finally {
+                authListener?.onFinish()
             }
         }
     }
