@@ -59,6 +59,8 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
     private lateinit var filterListAdapter: FilterListAdapter
     private lateinit var recyclerFilterList: RecyclerView
 
+    private lateinit var sliderAdapter: SliderAdapter
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -75,6 +77,10 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
         filterListAdapter = FilterListAdapter(true)
         recyclerFilterList.adapter = filterListAdapter
 
+        sliderAdapter = SliderAdapter()
+        binding.imageSlide.adapter = sliderAdapter
+
+
         binding.bottomMenu.linear_layout_details.setOnClickListener {
             binding.detailsLayout.toggle()
             binding.filterList.dismiss()
@@ -85,7 +91,12 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
             binding.detailsLayout.dismiss()
         }
 
-        binding.imagePreview.setOnClickListener {
+//        binding.imagePreview.setOnClickListener {
+//            binding.detailsLayout.dismiss()
+//            binding.filterList.dismiss()
+//        }
+
+        binding.imageSlide.setOnClickListener {
             binding.detailsLayout.dismiss()
             binding.filterList.dismiss()
         }
@@ -102,10 +113,9 @@ class ImageDetailsFragment : Fragment(), KodeinAware {
         arguments?.let { bundle ->
             if (!bundle.isEmpty) {
                 val args = ImageDetailsFragmentArgs.fromBundle(bundle)
-                Glide.with(requireView())
-                    .load(if (args.image.treaty) args.image.urlTreated else args.image.urlUntreated)
-                    .placeholder(circularProgressDrawable)
-                    .into(image_preview)
+
+                sliderAdapter.setData(if (args.image.treaty) listOf(args.image.urlTreated, args.image.urlUntreated) else listOf(args.image.urlUntreated))
+
                 details_layout.txt_created_at.text = SimpleDateFormat(
                     getString(R.string.date_format)
                 ).format(args.image.createdAt)
