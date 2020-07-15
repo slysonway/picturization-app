@@ -29,6 +29,9 @@ import com.google.gson.reflect.TypeToken
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.dual_picker_layout.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
+import kotlinx.android.synthetic.main.fragment_transform_picture.view.*
+import kotlinx.android.synthetic.main.fragment_transform_picture.view.slider
+import kotlinx.android.synthetic.main.radial_blur_options_layout.view.*
 import kotlinx.android.synthetic.main.recycler_list_layout.view.*
 import kotlinx.android.synthetic.main.slider_layout.view.*
 import org.kodein.di.KodeinAware
@@ -87,6 +90,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.filterList.dismiss()
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
+            binding.radialBlurOption.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
@@ -95,6 +99,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.filterList.toggle()
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
+            binding.radialBlurOption.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
@@ -103,6 +108,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.filterList.dismiss()
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
+            binding.radialBlurOption.dismiss()
         }
 
         binding.bottomMenu.linear_layout_send.setOnClickListener {
@@ -120,13 +126,9 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.slider.simple_slider_value.text = value.toInt().toString()
         }
 
-        loadConfigFilter()?.let {
-            filterConfig = it
-        }
-
         binding.slider.add_filter.setOnClickListener {
             viewModel.currentFilter?.let {
-                val toAdd = it
+                val toAdd = Filter(it.name, it.parameter)
                 toAdd.parameter[0].value = binding.slider.simple_slider_value.text.toString()
                 addFilter(toAdd)
              }
@@ -159,6 +161,14 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
                 addFilter(it)
             }
             binding.dualPicker.dismiss()
+        }
+
+        binding.radialBlurOption.blur_intensity.add_filter.setOnClickListener { view ->
+
+        }
+
+        binding.radialBlurOption.blur_intensity.simple_slider.addOnChangeListener { _, value, _ ->
+            binding.radialBlurOption.blur_intensity.simple_slider_value.text = value.toInt().toString()
         }
 
 
@@ -207,12 +217,24 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
     }
 
     override fun onFilterChoiceListener(filter: FilterEnum) {
-        val filterDetails = filterConfig.first { it.name == filter }
+        val filterDetails = loadConfigFilter()?.first { it.name == filter }!!
         viewModel.currentFilter = filterDetails
         if (filterDetails.parameter.size > 1) {
             //TODO find what to do
             if (filterDetails.name == FilterEnum.RADIAL_BLUR) {
-                //TODO add picker between horizontal & vertical
+                filterDetails.parameter.forEach {
+                    if (it.name == FilterParameterEnum.intensity) {
+                        val maxVal = it.value.split("-")
+                        radial_blur_option.blur_intensity.simple_slider.valueTo = maxVal[1].toFloat()
+                        radial_blur_option.blur_intensity.title_slider.text = getString(it.name.title)
+                    } else if (it.name == FilterParameterEnum.orientation) {
+                        val value = it.value.split(",")
+                        radial_blur_option.checkBox1.text = value[0]
+                        radial_blur_option.checkBox2.text = value[1]
+                        radial_blur_option.title_orientation.text = getString(it.name.title)
+                    }
+                }
+                radial_blur_option.toggle()
             }
             if (filterDetails.name == FilterEnum.BICHROMATIC) {
 
