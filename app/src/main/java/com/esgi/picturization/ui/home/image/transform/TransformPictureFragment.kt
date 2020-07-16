@@ -3,6 +3,8 @@ package com.esgi.picturization.ui.home.image.transform
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -26,14 +28,16 @@ import com.esgi.picturization.ui.home.image.transform.list.filter.OnFilterListIn
 import com.esgi.picturization.util.*
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import kotlinx.android.synthetic.main.bichromatic_option_layout.view.*
 import kotlinx.android.synthetic.main.bottom_menu_tranform.view.*
 import kotlinx.android.synthetic.main.dual_picker_layout.view.*
 import kotlinx.android.synthetic.main.fragment_transform_picture.*
-import kotlinx.android.synthetic.main.fragment_transform_picture.view.*
-import kotlinx.android.synthetic.main.fragment_transform_picture.view.slider
 import kotlinx.android.synthetic.main.radial_blur_options_layout.view.*
 import kotlinx.android.synthetic.main.recycler_list_layout.view.*
 import kotlinx.android.synthetic.main.slider_layout.view.*
+import me.priyesh.chroma.ChromaDialog
+import me.priyesh.chroma.ColorMode
+import me.priyesh.chroma.ColorSelectListener
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -91,6 +95,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
             binding.radialBlurOption.dismiss()
+            binding.bichromaticOption.dismiss()
         }
 
         binding.bottomMenu.linear_layout_list_filter.setOnClickListener {
@@ -100,6 +105,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
             binding.radialBlurOption.dismiss()
+            binding.bichromaticOption.dismiss()
         }
 
         binding.imagePreview.setOnClickListener {
@@ -109,6 +115,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.slider.dismiss()
             binding.dualPicker.dismiss()
             binding.radialBlurOption.dismiss()
+            binding.bichromaticOption.dismiss()
         }
 
         binding.bottomMenu.linear_layout_send.setOnClickListener {
@@ -163,10 +170,6 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.dualPicker.dismiss()
         }
 
-        binding.radialBlurOption.blur_intensity.add_filter.setOnClickListener { view ->
-
-        }
-
         binding.radialBlurOption.blur_intensity.simple_slider.addOnChangeListener { _, value, _ ->
             binding.radialBlurOption.blur_intensity.simple_slider_value.text = value.toInt().toString()
         }
@@ -200,10 +203,37 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
                             }
                         }
                     }
-                    toAdd.parameter[0].value = binding.slider.simple_slider_value.text.toString()
                     addFilter(toAdd)
                 }
                 binding.radialBlurOption.dismiss()
+            }
+        }
+
+        binding.bichromaticOption.color_picker1.setOnClickListener {
+            showColorPickerDialog(it)
+        }
+
+        binding.bichromaticOption.color_picker2.setOnClickListener {
+            showColorPickerDialog(it)
+        }
+
+        binding.bichromaticOption.add_bichromatic.setOnClickListener {
+            viewModel.currentFilter?.let {
+                val toAdd = Filter(it.name, it.parameter)
+                toAdd.parameter.forEach { filterParameter ->
+                    if (filterParameter.name == FilterParameterEnum.color_filter_1) {
+                        val background = binding.bichromaticOption.color_picker1.background
+                        val color = (background as ColorDrawable).color
+                        val hexColor = String.format("0x%06X", (0xFFFFFF and color))
+                        filterParameter.value = hexColor
+                    } else if (filterParameter.name == FilterParameterEnum.color_filter_2) {
+                        val background = binding.bichromaticOption.color_picker2.background
+                        val color = (background as ColorDrawable).color
+                        val hexColor = String.format("0x%06X", (0xFFFFFF and color))
+                        filterParameter.value = hexColor
+                    }
+                }
+                addFilter(toAdd)
             }
         }
 
@@ -282,7 +312,8 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
                 radial_blur_option.toggle()
             }
             if (filterDetails.name == FilterEnum.BICHROMATIC) {
-
+                bichromatic_option.title_bichromatic_option.text = getString(filterDetails.name.title)
+                bichromatic_option.toggle()
             }
         } else if (filterDetails.parameter[0].name == FilterParameterEnum.intensity) {
             val maxVal = filterDetails.parameter[0].value.split("-")
@@ -345,6 +376,19 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
              return gson.fromJson(jsonString.trimIndent(), filterListType)
         }
         return null
+    }
+
+    private fun showColorPickerDialog(view: View) {
+        ChromaDialog.Builder()
+            .initialColor(Color.WHITE)
+            .colorMode(ColorMode.RGB)
+            .onColorSelected(object : ColorSelectListener {
+                override fun onColorSelected(color: Int) {
+                    view.setBackgroundColor(color)
+                }
+            })
+            .create()
+            .show(requireActivity().supportFragmentManager, "Color Picker")
     }
 
 
