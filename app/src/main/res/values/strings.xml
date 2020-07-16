@@ -43,6 +43,8 @@
     <string name="message_dialog_filter_added">The %s has been added</string>
     <string name="message_success_send">The Image was successfully sent</string>
     <string name="btn_add_filter">Add</string>
+    <string name="title_dialog_empty_checkbox">No Orientation Selected</string>
+    <string name="message_dialog_no_checkbox">Please select an orientation</string>
 
     <!-- ImageDetails Fragment -->
     <string name="title_image_details_fragment">Image Details</string>

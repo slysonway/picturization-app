@@ -171,6 +171,42 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             binding.radialBlurOption.blur_intensity.simple_slider_value.text = value.toInt().toString()
         }
 
+        binding.radialBlurOption.checkBox1.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.radialBlurOption.checkBox2.isChecked = false
+            }
+        }
+
+        binding.radialBlurOption.checkBox2.setOnCheckedChangeListener { buttonView, isChecked ->
+            if (isChecked) {
+                binding.radialBlurOption.checkBox1.isChecked = false
+            }
+        }
+
+        binding.radialBlurOption.blur_intensity.add_filter.setOnClickListener {
+            if (!binding.radialBlurOption.checkBox1.isChecked && !binding.radialBlurOption.checkBox2.isChecked) {
+                emptyCheckBoxDialog()
+            } else {
+                viewModel.currentFilter?.let {
+                    val toAdd = Filter(it.name, it.parameter)
+                    toAdd.parameter.forEach { filterParameter ->
+                        if (filterParameter.name == FilterParameterEnum.intensity) {
+                            filterParameter.value = binding.radialBlurOption.blur_intensity.simple_slider_value.text.toString()
+                        } else if (filterParameter.name == FilterParameterEnum.orientation) {
+                            if (binding.radialBlurOption.checkBox1.isChecked) {
+                                filterParameter.value = binding.radialBlurOption.checkBox1.text.toString();
+                            } else {
+                                filterParameter.value = binding.radialBlurOption.checkBox2.text.toString();
+                            }
+                        }
+                    }
+                    toAdd.parameter[0].value = binding.slider.simple_slider_value.text.toString()
+                    addFilter(toAdd)
+                }
+                binding.radialBlurOption.dismiss()
+            }
+        }
+
 
         return binding.root
     }
@@ -208,6 +244,15 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
             dialog.dismiss()
         }
         dialogBuilder.show()
+    }
+
+    private fun emptyCheckBoxDialog() {
+        AlertDialog
+            .Builder(requireContext())
+            .setTitle(R.string.title_dialog_empty_checkbox)
+            .setMessage(R.string.message_dialog_no_checkbox)
+            .setPositiveButton("OK") { dialog, _ ->  dialog.dismiss() }
+            .show()
     }
 
     override fun onFilterListener(position: Int) {
