@@ -8,6 +8,8 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
@@ -49,6 +51,8 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
 
     private var isFabOpen: Boolean = false
     private var imageUri: Uri? = null
+
+    private val mainHandler: Handler = Handler(Looper.getMainLooper())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -241,11 +245,31 @@ class StartFragment : Fragment(), KodeinAware, StartListener,
             requireView().snackbar(message)
     }
 
+    private val imageRefresher = object : Runnable {
+        override fun run() {
+            viewModel.getImage()
+            mainHandler.postDelayed(this, TIMER)
+        }
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        mainHandler.post(imageRefresher)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        mainHandler.removeCallbacks(imageRefresher)
+    }
+
     companion object {
         private const val TAKE_PICTURE_CODE = 0
         private const val PICK_GALLERY_CODE = 1
 
         private const val TAKE_PICTURE_PERMISSION_CODE = 1000
         private const val PICK_GALLERY_PERMISSION_CODE = 1001
+
+        private const val TIMER: Long = 40000
     }
 }
