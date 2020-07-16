@@ -235,6 +235,7 @@ class TransformPictureFragment : Fragment(), KodeinAware, TransformListener,
                 }
                 addFilter(toAdd)
             }
+            bichromatic_option.dismiss()
         }
 
 

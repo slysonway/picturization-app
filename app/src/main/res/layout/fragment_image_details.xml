@@ -16,6 +16,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/image_slide"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"  />
+
             <include
                 android:id="@+id/details_layout"
                 layout="@layout/details_image_layout"
@@ -51,14 +60,7 @@
                 layout="@layout/horizontal_progress_bar"
                 android:visibility="invisible"/>
 
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/image_slide"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"  />
+
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
